@@ -28,7 +28,7 @@ namespace Processing
 		cvtColor(*frame, frameGray, COLOR_BGR2GRAY);
 		equalizeHist(frameGray, frameGray);
 
-		classifier->detectMultiScale(frameGray, *detectedFaces, 1.5, 3, 0 | CASCADE_SCALE_IMAGE, Size(40,40));
+		classifier->detectMultiScale(frameGray, *detectedFaces, 1.2, 2, 0 | CASCADE_SCALE_IMAGE, Size(100,100));
 
 		return detectedFaces;
 	}

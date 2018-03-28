@@ -1,7 +1,10 @@
 #include "stdafx.h"
 #include "Engine.h"
 
+#include <thread>
+#include <chrono>
 #include <opencv2\highgui.hpp>
+
 
 using namespace cv;
 
@@ -36,13 +39,15 @@ int Engine::Run()
 	}
 
 	while (true) {
-		int cycleResult = EngineCycle();
+		int cycleResult = EngineCycle();		
 
 		if (cycleResult < ECODE_SUCCESS) {
 			keykeeper->Lock();
 
 			return cycleResult;
 		}
+
+		std::this_thread::sleep_for(std::chrono::milliseconds(500));
 	}
 
 	return ECODE_SUCCESS;
@@ -98,6 +103,9 @@ int Engine::EngineCycle()
 		if (handleResult < ECODE_SUCCESS) {
 			return handleResult;
 		}
+	}
+	else {
+		failedDetectionCount = 0;
 	}
 
 	DrawFaceFrames(*currentFrame, *faces);

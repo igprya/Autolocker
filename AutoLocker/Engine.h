@@ -25,7 +25,7 @@ class Engine
 		int DrawFaceFrames(Mat& frame, std::vector<Rect>& detectedFaces);
 
 		int failedDetectionCount = 0;
-		int failedDetectionsThreshold = 2;
+		int failedDetectionsThreshold = 5;
 
 		int recognitionInterval = 180;
 		int failedRecognitionCount = 0;
