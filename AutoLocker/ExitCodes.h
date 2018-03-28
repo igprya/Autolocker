@@ -1,5 +1,7 @@
 #pragma once
 
+const static int ECODE_LOCKED = 10;
+
 const static int ECODE_SUCCESS = 1;
 const static int ECODE_FAILURE = 0;
 

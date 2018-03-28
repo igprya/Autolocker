@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "StubLocker.h"
+#include <Windows.h>
 
 namespace Helpers {
 	int StubLocker::Lock()
@@ -7,6 +8,8 @@ namespace Helpers {
 		if (isLocked) {
 			return ECODE_SUCCESS;
 		}
+
+		LockWorkStation();
 
 		isLocked = true;
 

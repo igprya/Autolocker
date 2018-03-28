@@ -62,7 +62,7 @@ int Engine::InitProcessors()
 	bool recognizerRunning = false;
 
 	capturerRunning = this->capturer->InitCapture(0);
-	detectorRunning = true;//this->detector->InitDecetion();
+	detectorRunning = this->detector->InitDetection("C:/haarcascade_frontalface_alt.xml");
 	recognizerRunning = true;//this->recognizer->InitRecognition();
 
 	if (!capturerRunning) {
@@ -90,10 +90,7 @@ int Engine::EngineCycle()
 		return ERROR_CAPTURER_NOFRAME;
 	}
 
-	imshow("dbg", *currentFrame);
-	waitKey(5);
-
-	/*std::vector<Mat*>* faces = detector->GetFaces(currentFrame);
+	std::vector<Rect>* faces = detector->GetFaces(currentFrame);
 
 	if (faces->size() == 0) 
 	{
@@ -103,6 +100,11 @@ int Engine::EngineCycle()
 		}
 	}
 
+	DrawFaceFrames(*currentFrame, *faces);
+	imshow("dbg", *currentFrame);
+	waitKey(5);
+
+	/*
 	if (IsRecognitionRequired(recognizer->GetOperationTime())) {
 		int recognitionResult = recognizer->RecognizeFaces(faces);
 
@@ -151,6 +153,22 @@ int Engine::HandleRecognitionFailure()
 		failedRecognitionCount = 0;
 
 		return keykeeper->Lock();
+	}
+
+	return ECODE_SUCCESS;
+}
+
+int Engine::DrawFaceFrames(Mat& frame, std::vector<Rect>& detectedFaces)
+{
+	size_t currentIndex = 0;
+	int currentArea = 0;
+
+	for (currentIndex = 0; currentIndex < detectedFaces.size(); currentIndex++) 
+	{
+		Point pt1 = Point(detectedFaces[currentIndex].x, detectedFaces[currentIndex].y);
+		Point pt2 = Point(detectedFaces[currentIndex].x + detectedFaces[currentIndex].height, detectedFaces[currentIndex].y + detectedFaces[currentIndex].width);
+
+		rectangle(frame, pt1, pt2, 8);
 	}
 
 	return ECODE_SUCCESS;
