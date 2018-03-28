@@ -30,10 +30,12 @@ namespace Helpers
 		int imageCount = 5;
 		int capturedImages = 0;
 
+		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
 		while (capturedImages < imageCount)
 		{
-			std::cout << "Press any key when you're ready to capure face" << std::endl;
-			getchar();
+			std::cout << "Press any key when you're ready to capure face";
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
 			Mat frame = capturer->GetFrame();
 			Mat face = detector->GetFaces(frame)[0];
@@ -49,7 +51,7 @@ namespace Helpers
 	{
 		std::string filePath;
 		std::stringstream ss;
-		ss << "owner/" << time(nullptr) << ".jpg";
+		ss << OWNER_FACES_FOLDER << time(nullptr) << ".jpg";
 		filePath = ss.str();
 
 		imwrite(filePath, imageMat);
