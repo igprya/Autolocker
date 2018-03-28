@@ -4,10 +4,10 @@
 #include <opencv2/core.hpp>
 #include <opencv2/videoio.hpp>
 
+#include "Globals.h"
 #include "ExitCodes.h"
 #include "Timer.h"
 
-using namespace std;
 using namespace cv;
 
 namespace Processing
@@ -15,9 +15,7 @@ namespace Processing
 	class Capturer : public Helpers::Timer
 	{
 		public:
-			Capturer();
-			~Capturer();
-			int InitCapture(int deviceIndex);
+			int InitCapture(int deviceIndex = DEFAULT_CAPTURE_DEVICE_INDEX);
 			Mat GetFrame();
 
 		private:

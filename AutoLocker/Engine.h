@@ -3,13 +3,12 @@
 
 #include <opencv2\core.hpp>
 
+#include "ExitCodes.h"
 #include "Capturer.h"
 #include "Detector.h"
 #include "Recognizer.h"
-#include "ExitCodes.h"
 #include "StubLocker.h"
 
-using namespace std;
 using namespace cv;
 
 class Engine

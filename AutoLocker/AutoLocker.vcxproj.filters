@@ -19,6 +19,15 @@
     <Filter Include="Helpers">
       <UniqueIdentifier>{06241885-aaad-48fd-8f1e-8627e4bf2a86}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Helpers\Timer">
+      <UniqueIdentifier>{02f3f5f5-c081-4053-b6c3-18ead9933bf7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Helpers\FaceCapturer">
+      <UniqueIdentifier>{23b62557-bf15-4b04-9b3f-d1493422f3f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Helpers\Keykeepers">
+      <UniqueIdentifier>{9d510d4b-e073-4667-9f6f-f95b678bb3f1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -42,14 +51,20 @@
     <ClInclude Include="Capturer.h">
       <Filter>Processing</Filter>
     </ClInclude>
-    <ClInclude Include="StubLocker.h">
-      <Filter>Helpers</Filter>
-    </ClInclude>
-    <ClInclude Include="Keykeeper.h">
-      <Filter>Helpers</Filter>
+    <ClInclude Include="Globals.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Timer.h">
-      <Filter>Helpers</Filter>
+      <Filter>Helpers\Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="FaceCapturer.h">
+      <Filter>Helpers\FaceCapturer</Filter>
+    </ClInclude>
+    <ClInclude Include="Keykeeper.h">
+      <Filter>Helpers\Keykeepers</Filter>
+    </ClInclude>
+    <ClInclude Include="StubLocker.h">
+      <Filter>Helpers\Keykeepers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -71,11 +86,14 @@
     <ClCompile Include="Capturer.cpp">
       <Filter>Processing</Filter>
     </ClCompile>
-    <ClCompile Include="StubLocker.cpp">
-      <Filter>Helpers</Filter>
-    </ClCompile>
     <ClCompile Include="Timer.cpp">
-      <Filter>Helpers</Filter>
+      <Filter>Helpers\Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="FaceCapturer.cpp">
+      <Filter>Helpers\FaceCapturer</Filter>
+    </ClCompile>
+    <ClCompile Include="StubLocker.cpp">
+      <Filter>Helpers\Keykeepers</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

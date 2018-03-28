@@ -6,8 +6,7 @@ namespace Helpers {
 	{
 		operationTime = std::time(nullptr);
 	}
-
-
+	
 	time_t Timer::GetOperationTime()
 	{
 		return operationTime;

@@ -11,12 +11,23 @@ namespace Processing
 	{
 	}
 
-	int Recognizer::RecognizeFaces(std::vector<Mat*>* facesVector)
+	int Recognizer::InitRecognition()
 	{
-		return 0;
+		labels.push_back(1);
+
+		string path = "owner/";
+
+		for (auto& p : std::experimental::filesystem::directory_iterator(path))
+		{
+			std::string path = p.path().string();
+			images.push_back(imread(path));
+		}
+
+		return ECODE_SUCCESS;
 	}
-	int Recognizer::LearnFace(std::vector<Mat*> faces)
+
+	int Recognizer::RecognizeFace(Mat& face)
 	{
-		return 0;
+		return ECODE_FAILURE;
 	}
 }

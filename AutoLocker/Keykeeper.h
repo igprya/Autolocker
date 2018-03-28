@@ -1,6 +1,7 @@
 #pragma once
 
-namespace Helpers {
+namespace Helpers 
+{
 	class Keykeeper
 	{
 		public:

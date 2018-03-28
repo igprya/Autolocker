@@ -2,7 +2,8 @@
 #include "StubLocker.h"
 #include <Windows.h>
 
-namespace Helpers {
+namespace Helpers 
+{
 	int StubLocker::Lock()
 	{
 		if (isLocked) {

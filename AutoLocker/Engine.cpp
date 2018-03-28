@@ -3,8 +3,8 @@
 
 #include <thread>
 #include <chrono>
-#include <opencv2\highgui.hpp>
 
+#include <opencv2\highgui.hpp>
 
 using namespace cv;
 
@@ -17,9 +17,10 @@ Engine::Engine()
 
 Engine::~Engine()
 {
-	capturer->~Capturer();
-	detector->~Detector();
-	recognizer->~Recognizer();
+	delete keykeeper;
+	delete capturer;
+	delete detector;
+	delete recognizer;
 }
 
 int Engine::Run()
@@ -34,7 +35,6 @@ int Engine::Run()
 	int procInitResult = InitProcessors();
 
 	if (procInitResult < ECODE_SUCCESS) {
-		keykeeper->Lock();
 		return procInitResult;
 	}
 
@@ -67,7 +67,7 @@ int Engine::InitProcessors()
 	bool recognizerRunning = false;
 
 	capturerRunning = this->capturer->InitCapture(0);
-	detectorRunning = this->detector->InitDetection("D:/Temp/haarcascade_frontalface_alt.xml");
+	detectorRunning = this->detector->InitDetection(CASCADE_TEMPLATE_FILE_PATH);
 	recognizerRunning = true;//this->recognizer->InitRecognition();
 
 	if (!capturerRunning) {

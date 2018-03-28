@@ -3,19 +3,8 @@
 
 namespace Processing
 {
-	Capturer::Capturer()
-	{
-	}
-	
-	Capturer::~Capturer()
-	{
-		capture.~VideoCapture();
-	}
-
 	int Capturer::InitCapture(int deviceIndex)
 	{
-		SetOperationTime();
-
 		if (capture.isOpened()) {
 			return ECODE_SUCCESS;
 		}

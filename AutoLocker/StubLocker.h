@@ -2,7 +2,8 @@
 #include "Keykeeper.h"
 #include "ExitCodes.h"
 
-namespace Helpers {
+namespace Helpers 
+{
 	class StubLocker : public Keykeeper
 	{
 		public:

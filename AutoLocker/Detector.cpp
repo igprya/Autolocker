@@ -1,43 +1,40 @@
 #include "stdafx.h"
 #include "Detector.h"
 
-using namespace std;
 using namespace cv;
 
 namespace Processing
 {
-	Detector::Detector()
-	{
-	}
-
 	Detector::~Detector()
 	{
+		delete classifier;
 	}
 
 	int Detector::InitDetection(std::string cascadePath)
 	{
 		classifier = new CascadeClassifier(cascadePath);
-
 		return ECODE_SUCCESS;
 	}
 
-	vector<Rect> Detector::GetFaceRects(Mat& frame)
+	std::vector<Rect> Detector::GetFaceRects(Mat& frame)
 	{
-		vector<Rect> detectedFaces;
+		std::vector<Rect> detectedFaces;
 		Mat frameGray;
 
 		cvtColor(frame, frameGray, COLOR_BGR2GRAY);
 		equalizeHist(frameGray, frameGray);
 
-		classifier->detectMultiScale(frameGray, detectedFaces, 1.2, 2, 0 | CASCADE_SCALE_IMAGE, Size(30,30));
+		classifier->detectMultiScale(frameGray, detectedFaces, 1.2, 2, 0 | CASCADE_SCALE_IMAGE, Size(100,100));
+
+		SetOperationTime();
 
 		return detectedFaces;
 	}
 
-	vector<Mat> Detector::GetFaces(Mat& frame)
+	std::vector<Mat> Detector::GetFaces(Mat& frame)
 	{
-		vector<Rect> faceRects = this->GetFaceRects(frame);
-		vector<Mat> faceMats;
+		std::vector<Rect> faceRects = this->GetFaceRects(frame);
+		std::vector<Mat> faceMats;
 		Mat croppedFrame;
 		Mat resizedFrame;
 

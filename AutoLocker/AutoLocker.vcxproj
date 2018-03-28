@@ -160,6 +160,8 @@
     <ClInclude Include="Detector.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="ExitCodes.h" />
+    <ClInclude Include="FaceCapturer.h" />
+    <ClInclude Include="Globals.h" />
     <ClInclude Include="Keykeeper.h" />
     <ClInclude Include="Recognizer.h" />
     <ClInclude Include="stdafx.h" />
@@ -172,6 +174,7 @@
     <ClCompile Include="Capturer.cpp" />
     <ClCompile Include="Detector.cpp" />
     <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="FaceCapturer.cpp" />
     <ClCompile Include="Recognizer.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

@@ -9,7 +9,6 @@
 #include "ExitCodes.h"
 #include "Timer.h"
 
-using namespace std;
 using namespace cv;
 
 namespace Processing
@@ -17,11 +16,10 @@ namespace Processing
 	class Detector : public Helpers::Timer
 	{
 		public:
-			Detector();
 			~Detector();
 			int InitDetection(std::string cascadePath);
-			vector<Rect> GetFaceRects(Mat& frame);
-			vector<Mat> GetFaces(Mat& frame);		
+			std::vector<Rect> GetFaceRects(Mat& frame);
+			std::vector<Mat> GetFaces(Mat& frame);
 
 		private:
 			CascadeClassifier* classifier;
