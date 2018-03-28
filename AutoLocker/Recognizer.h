@@ -14,6 +14,7 @@ namespace Processing
 			Recognizer();
 			~Recognizer();
 			int RecognizeFaces(std::vector<Mat*>* facesVector);
+			int LearnFace(std::vector<Mat*> faces);
 	};
 }
 

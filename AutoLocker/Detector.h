@@ -1,12 +1,15 @@
 #pragma once
 #include <vector>
-#include <opencv2/core.hpp>
-#include <opencv2/objdetect.hpp>
-#include <opencv2/imgproc.hpp>
+
+#include <opencv2\core.hpp>
+#include <opencv2\objdetect.hpp>
+#include <opencv2\imgproc.hpp>
+#include <opencv2\imgcodecs.hpp>
 
 #include "ExitCodes.h"
 #include "Timer.h"
 
+using namespace std;
 using namespace cv;
 
 namespace Processing
@@ -17,7 +20,8 @@ namespace Processing
 			Detector();
 			~Detector();
 			int InitDetection(std::string cascadePath);
-			std::vector<Rect>* GetFaces(Mat* frame);
+			vector<Rect> GetFaceRects(Mat& frame);
+			vector<Mat> GetFaces(Mat& frame);		
 
 		private:
 			CascadeClassifier* classifier;

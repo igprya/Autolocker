@@ -67,7 +67,7 @@ int Engine::InitProcessors()
 	bool recognizerRunning = false;
 
 	capturerRunning = this->capturer->InitCapture(0);
-	detectorRunning = this->detector->InitDetection("C:/haarcascade_frontalface_alt.xml");
+	detectorRunning = this->detector->InitDetection("D:/Temp/haarcascade_frontalface_alt.xml");
 	recognizerRunning = true;//this->recognizer->InitRecognition();
 
 	if (!capturerRunning) {
@@ -91,13 +91,13 @@ int Engine::EngineCycle()
 
 	currentFrame = capturer->GetFrame();
 
-	if (!currentFrame) {
+	if (currentFrame.empty()) {
 		return ERROR_CAPTURER_NOFRAME;
 	}
 
-	std::vector<Rect>* faces = detector->GetFaces(currentFrame);
+	std::vector<Rect> faces = detector->GetFaceRects(currentFrame);
 
-	if (faces->size() == 0) 
+	if (faces.size() == 0) 
 	{
 		handleResult = HandleDetectionFailure();
 		if (handleResult < ECODE_SUCCESS) {
@@ -108,8 +108,8 @@ int Engine::EngineCycle()
 		failedDetectionCount = 0;
 	}
 
-	DrawFaceFrames(*currentFrame, *faces);
-	imshow("dbg", *currentFrame);
+	DrawFaceFrames(currentFrame, faces);
+	imshow("dbg", currentFrame);
 	waitKey(5);
 
 	/*

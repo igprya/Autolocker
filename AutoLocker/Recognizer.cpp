@@ -15,4 +15,8 @@ namespace Processing
 	{
 		return 0;
 	}
+	int Recognizer::LearnFace(std::vector<Mat*> faces)
+	{
+		return 0;
+	}
 }

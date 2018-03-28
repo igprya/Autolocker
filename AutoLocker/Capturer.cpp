@@ -28,22 +28,22 @@ namespace Processing
 
 		return ECODE_SUCCESS;
 	}
-	cv::Mat* Capturer::GetFrame()
+	Mat Capturer::GetFrame()
 	{
-		static cv::Mat currentFrame;
+		static Mat currentFrame;
 
 		if (!capture.isOpened()) {
-			return NULL;
+			return Mat();
 		}
 		
 		capture.read(currentFrame);
 
 		if (currentFrame.empty()) {
-			return NULL;
+			return Mat();
 		}
 
 		SetOperationTime();
 
-		return &currentFrame;
+		return currentFrame;
 	}
 }

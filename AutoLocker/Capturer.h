@@ -1,10 +1,14 @@
 #pragma once
 #include <ctime>
+
 #include <opencv2/core.hpp>
 #include <opencv2/videoio.hpp>
 
 #include "ExitCodes.h"
 #include "Timer.h"
+
+using namespace std;
+using namespace cv;
 
 namespace Processing
 {
@@ -14,10 +18,10 @@ namespace Processing
 			Capturer();
 			~Capturer();
 			int InitCapture(int deviceIndex);
-			cv::Mat* GetFrame();
+			Mat GetFrame();
 
 		private:
-			cv::VideoCapture capture;
+			VideoCapture capture;
 	};
 }
 

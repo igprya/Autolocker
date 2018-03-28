@@ -1,12 +1,16 @@
 #pragma once
-#include <opencv2\core.hpp>
 #include <ctime>
+
+#include <opencv2\core.hpp>
 
 #include "Capturer.h"
 #include "Detector.h"
 #include "Recognizer.h"
 #include "ExitCodes.h"
 #include "StubLocker.h"
+
+using namespace std;
+using namespace cv;
 
 class Engine
 {
@@ -22,7 +26,7 @@ class Engine
 		bool IsRecognitionRequired(time_t lastRecognition);
 		int HandleDetectionFailure();
 		int HandleRecognitionFailure();
-		int DrawFaceFrames(Mat& frame, std::vector<Rect>& detectedFaces);
+		int DrawFaceFrames(Mat& frame, vector<Rect>& detectedFaces);
 
 		int failedDetectionCount = 0;
 		int failedDetectionsThreshold = 5;
@@ -33,7 +37,7 @@ class Engine
 
 		Helpers::Keykeeper* keykeeper = NULL;
 		
-		cv::Mat* currentFrame = NULL;
+		Mat currentFrame;
 		Processing::Capturer* capturer = NULL;
 		Processing::Detector* detector = NULL;
 		Processing::Recognizer* recognizer = NULL;
