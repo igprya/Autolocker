@@ -1,11 +1,6 @@
 #include "stdafx.h"
 #include "Engine.h"
 
-#include <thread>
-#include <chrono>
-
-#include <opencv2\highgui.hpp>
-
 using namespace cv;
 
 Engine::Engine()
@@ -23,7 +18,7 @@ Engine::~Engine()
 	delete recognizer;
 }
 
-int Engine::Run()
+int Engine::Start()
 {
 	int engInitResult = InitEngine();
 
@@ -32,22 +27,14 @@ int Engine::Run()
 		return engInitResult;
 	}
 
-	int procInitResult = InitProcessors();
-
-	if (procInitResult < ECODE_SUCCESS) {
-		return procInitResult;
-	}
-
-	while (true) {
+	while (true)
+	{
 		int cycleResult = EngineCycle();		
 
-		if (cycleResult < ECODE_SUCCESS) {
-			keykeeper->Lock();
-
+		if (cycleResult < ECODE_SUCCESS) 
 			return cycleResult;
-		}
 
-		std::this_thread::sleep_for(std::chrono::milliseconds(500));
+		std::this_thread::sleep_for(std::chrono::milliseconds(ENGINE_RPM));
 	}
 
 	return ECODE_SUCCESS;
@@ -55,18 +42,13 @@ int Engine::Run()
 
 int Engine::InitEngine()
 {
-	keykeeper = new Helpers::StubLocker();
+	keykeeper = new Helpers::WinLocker();
 
-	return ECODE_SUCCESS;
-}
-
-int Engine::InitProcessors()
-{
 	bool capturerRunning = false;
 	bool detectorRunning = false;
 	bool recognizerRunning = false;
 
-	capturerRunning = this->capturer->InitCapture(0);
+	capturerRunning = this->capturer->InitCapture(DEFAULT_CAPTURE_DEVICE_INDEX);
 	detectorRunning = this->detector->InitDetection(CASCADE_TEMPLATE_FILE_PATH);
 	recognizerRunning = true;//this->recognizer->InitRecognition();
 
@@ -109,7 +91,7 @@ int Engine::EngineCycle()
 	}
 
 	DrawFaceFrames(currentFrame, faces);
-	imshow("dbg", currentFrame);
+	imshow("dbg-enginecycle", currentFrame);
 	waitKey(5);
 
 	/*

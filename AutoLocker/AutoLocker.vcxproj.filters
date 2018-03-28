@@ -63,7 +63,7 @@
     <ClInclude Include="Keykeeper.h">
       <Filter>Helpers\Keykeepers</Filter>
     </ClInclude>
-    <ClInclude Include="StubLocker.h">
+    <ClInclude Include="WinLocker.h">
       <Filter>Helpers\Keykeepers</Filter>
     </ClInclude>
   </ItemGroup>
@@ -92,7 +92,7 @@
     <ClCompile Include="FaceCapturer.cpp">
       <Filter>Helpers\FaceCapturer</Filter>
     </ClCompile>
-    <ClCompile Include="StubLocker.cpp">
+    <ClCompile Include="WinLocker.cpp">
       <Filter>Helpers\Keykeepers</Filter>
     </ClCompile>
   </ItemGroup>
