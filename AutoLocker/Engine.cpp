@@ -101,10 +101,9 @@ int Engine::EngineCycle()
 		if (faceMats.size() > 0)
 		{
 			int label = 0;
-			double confidence = 0.0;
+			double confidence = 0;
 
 			Mat face = faceMats[0];
-			Mat faceGray;
 
 			recognizer->RecognizeFace(face, label, confidence);
 			std::cout << "Recognized " << label << " with confidence " << confidence << std::endl;
