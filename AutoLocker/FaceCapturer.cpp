@@ -78,8 +78,6 @@ namespace Helpers
 		ss << OWNER_FACES_FOLDER << time(nullptr) << ".jpg";
 		filePath = ss.str();
 
-		resize(imageMat, imageMat, Size(150,150));
-
 		imwrite(filePath, imageMat);
 
 		std::cout << "Face saved to " << filePath << std::endl;

@@ -106,8 +106,6 @@ int Engine::EngineCycle()
 			Mat face = faceMats[0];
 			Mat faceGray;
 
-			resize(face, face, Size(150, 150), 0, 0, INTER_LINEAR);
-
 			recognizer->RecognizeFace(face, label, confidence);
 			std::cout << "Recognized " << label << " with confidence " << confidence << std::endl;
 		}
