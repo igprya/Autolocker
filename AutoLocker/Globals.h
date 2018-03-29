@@ -4,7 +4,7 @@
 
 const static int ENGINE_RPM = 50;
 const static int ENGINE_DETECTION_FAILURE_THRESHOLD = 10;
-const static int ENGINE_RECOGNITION_INTERVAL = 180;
+const static int ENGINE_RECOGNITION_INTERVAL = 10;
 const static int ENGINE_RECOGNITION_FAILURE_THRESHOLD = 10;
 
 const static std::string CASCADE_TEMPLATE_FILE_PATH = "patterns/haarcascade_frontalface_alt.xml";

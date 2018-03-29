@@ -2,9 +2,12 @@
 #include <ctime>
 #include <thread>
 #include <chrono>
+#include <iostream>
 
 #include <opencv2\core.hpp>
 #include <opencv2\highgui.hpp>
+#include <opencv2\imgproc.hpp>
+#include <opencv2\imgcodecs.hpp>
 
 #include "ExitCodes.h"
 #include "Capturer.h"
@@ -27,7 +30,7 @@ class Engine
 		bool IsRecognitionRequired(time_t lastRecognition);
 		int HandleDetectionFailure();
 		int HandleRecognitionFailure();
-		int DrawFaceFrames(Mat& frame, vector<Rect>& detectedFaces);
+		int DrawFaceFrames(Mat& frame, std::vector<Rect>& detectedFaces);
 
 		int failedDetectionCount = 0;
 		int failedDetectionsThreshold = ENGINE_DETECTION_FAILURE_THRESHOLD;

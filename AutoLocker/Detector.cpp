@@ -48,7 +48,7 @@ namespace Processing
 			currentFace.height = faceRects[i].height;
 
 			croppedFrame = frame(currentFace);
-			resize(croppedFrame, resizedFrame, Size(128, 128), 0, 0, INTER_LINEAR);
+			resize(croppedFrame, resizedFrame, Size(150, 150), 0, 0, INTER_LINEAR);
 			cvtColor(croppedFrame, croppedFrame, COLOR_BGR2GRAY);
 
 			faceMats.push_back(croppedFrame);

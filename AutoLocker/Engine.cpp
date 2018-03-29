@@ -50,7 +50,7 @@ int Engine::InitEngine()
 
 	capturerRunning = this->capturer->InitCapture(DEFAULT_CAPTURE_DEVICE_INDEX);
 	detectorRunning = this->detector->InitDetection(CASCADE_TEMPLATE_FILE_PATH);
-	recognizerRunning = true;//this->recognizer->InitRecognition();
+	recognizerRunning = this->recognizer->InitRecognition(OWNER_FACES_FOLDER);
 
 	if (!capturerRunning) {
 		return ERROR_CAPTURER_FAILED_INIT;
@@ -94,18 +94,24 @@ int Engine::EngineCycle()
 	imshow("dbg-enginecycle", currentFrame);
 	waitKey(5);
 
-	/*
-	if (IsRecognitionRequired(recognizer->GetOperationTime())) {
-		int recognitionResult = recognizer->RecognizeFaces(faces);
+	//if (IsRecognitionRequired(recognizer->GetOperationTime())) {
+	if (true) {
+		std::vector<Mat> faceMats = detector->GetFaces(currentFrame);
 
-		if (recognitionResult < ECODE_SUCCESS) 
+		if (faceMats.size() > 0)
 		{
-			handleResult = HandleRecognitionFailure();
-			if (handleResult < ECODE_SUCCESS) {
-				return handleResult;
-			}
+			int label = 0;
+			double confidence = 0.0;
+
+			Mat face = faceMats[0];
+			Mat faceGray;
+
+			resize(face, face, Size(150, 150), 0, 0, INTER_LINEAR);
+
+			recognizer->RecognizeFace(face, label, confidence);
+			std::cout << "Recognized " << label << " with confidence " << confidence << std::endl;
 		}
-	}*/
+	}
 
 	return ECODE_SUCCESS;
 }

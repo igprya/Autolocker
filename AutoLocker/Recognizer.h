@@ -4,12 +4,13 @@
 
 #include <opencv2\core.hpp>
 #include <opencv2\imgcodecs.hpp>
+#include <opencv2\face.hpp>
 
 #include "ExitCodes.h"
 #include "Timer.h"
 
-using namespace std;
 using namespace cv;
+using namespace face;
 
 namespace Processing
 {
@@ -18,11 +19,12 @@ namespace Processing
 		public:
 			Recognizer();
 			~Recognizer();
-			int InitRecognition();
-			int RecognizeFace(Mat& face);
+			int InitRecognition(std::string facesDirectoryPath);
+			void RecognizeFace(Mat& face, int& label, double& confidence);
 		private:
-			vector<Mat> images;
-			vector<int> labels;
+			std::vector<Mat> images;
+			std::vector<int> labels;
+			Ptr<FaceRecognizer> model;
 	};
 }
 

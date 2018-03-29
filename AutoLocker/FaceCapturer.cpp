@@ -27,8 +27,13 @@ namespace Helpers
 
 	int FaceCapturer::Learn()
 	{
+		int captureInterations = 3;
 		int imageCount = 5;
 		int capturedImages = 0;
+
+		Mat currentFrame;
+		Mat firstFace;
+		std::vector<Mat> faces;
 
 		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
@@ -37,11 +42,30 @@ namespace Helpers
 			std::cout << "Press any key when you're ready to capure face";
 			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-			Mat frame = capturer->GetFrame();
-			Mat face = detector->GetFaces(frame)[0];
+			for (int i = 0; i < captureInterations; i++)
+			{
+				std::this_thread::sleep_for(std::chrono::milliseconds(500));
 
-			SaveImage(face);
+				currentFrame = capturer->GetFrame();
+
+				imshow("dbg-capturer", currentFrame);
+				waitKey(1000);			
+
+				faces = detector->GetFaces(currentFrame);
+
+				if (faces.size() > 0)
+					break;
+			}
+
+			if (faces.size() == 0)
+				return ECODE_FAILURE;
+
+			firstFace = faces[0];
+
+			SaveImage(firstFace);
 			capturedImages++;
+
+			faces.clear();
 		}
 
 		return ECODE_SUCCESS;
@@ -53,6 +77,8 @@ namespace Helpers
 		std::stringstream ss;
 		ss << OWNER_FACES_FOLDER << time(nullptr) << ".jpg";
 		filePath = ss.str();
+
+		resize(imageMat, imageMat, Size(150,150));
 
 		imwrite(filePath, imageMat);
 
