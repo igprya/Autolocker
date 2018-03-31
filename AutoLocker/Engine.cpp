@@ -102,6 +102,13 @@ int Engine::EngineCycle()
 
 			recognizer->RecognizeFace(face, recognitionLabel, recognitionConfidence);
 			std::cout << "Recognized " << recognitionLabel << " with confidence " << recognitionConfidence << std::endl;
+
+			if (recognitionLabel != 1) {
+				HandleRecognitionFailure();
+			}
+			else {
+				HandleRecognitionSuccess();
+			}
 		}
 	}
 
@@ -159,6 +166,16 @@ int Engine::HandleRecognitionFailure()
 
 		return keykeeper->Lock();
 	}
+
+	return ECODE_SUCCESS;
+}
+
+int Engine::HandleRecognitionSuccess()
+{
+	failedDetectionCount = 0;
+
+	if (keykeeper->IsLocked())
+		keykeeper->Unlock();
 
 	return ECODE_SUCCESS;
 }

@@ -10,7 +10,9 @@ namespace Helpers
 			return ECODE_SUCCESS;
 		}
 
-		LockWorkStation();
+		//SendMessage(HWND_BROADCAST, WM_SYSCOMMAND, SC_MONITORPOWER, 1);
+
+		printf("Locked");
 
 		isLocked = true;
 
@@ -23,8 +25,17 @@ namespace Helpers
 			return ECODE_SUCCESS;
 		}
 
+		//SendMessage(HWND_BROADCAST, WM_SYSCOMMAND, SC_MONITORPOWER, -1);
+
+		printf("Unlocked");
+
 		isLocked = false;
 
 		return ECODE_SUCCESS;
+	}
+
+	bool WinLocker::IsLocked()
+	{
+		return isLocked;
 	}
 }

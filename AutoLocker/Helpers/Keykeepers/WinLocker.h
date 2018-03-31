@@ -8,6 +8,8 @@ namespace Helpers
 		public:
 			int Lock();
 			int Unlock();
+			bool IsLocked();
+
 	};
 }
 

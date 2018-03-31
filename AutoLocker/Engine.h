@@ -29,6 +29,7 @@ class Engine
 		bool IsRecognitionRequired(time_t lastRecognition);
 		int HandleDetectionFailure();
 		int HandleRecognitionFailure();
+		int HandleRecognitionSuccess();
 		int DrawFaceFrames(Mat& frame, std::vector<Rect>& detectedFaces);
 
 		int failedDetectionCount = 0;
