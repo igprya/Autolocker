@@ -5,7 +5,7 @@ namespace Processing
 {
 	Recognizer::Recognizer()
 	{
-		model = FisherFaceRecognizer::create();
+		model = LBPHFaceRecognizer::create(2, 16);
 	}
 	
 	Recognizer::~Recognizer()
@@ -18,7 +18,8 @@ namespace Processing
 		{
 			std::string path = p.path().string();
 			std::string fileName = p.path().filename().string();
-			images.push_back(imread(path));
+			images.push_back(imread(path, IMREAD_GRAYSCALE));
+
 
 			if (fileName[0] == 'a') {
 				labels.push_back(0);
@@ -28,19 +29,66 @@ namespace Processing
 			}
 		}
 
-		if (labels.size() > 0 && images.size() > 0)
+		if (labels.size() > 0 && images.size() > 0) {
+			TrainModel();
+			
+			return ECODE_SUCCESS;
+		}
+
+		return ECODE_FAILURE;
+	}
+
+	int Recognizer::RecognizeFace(Mat& face, int& label, double& confidence)
+	{
+		try
+		{
+			model->predict(face, label, confidence);
+			this->SetLastRecognitionResults(label, confidence);
+			this->SetOperationTime();
+
+			return ECODE_SUCCESS;
+		}
+		catch (const std::exception& ex)
+		{
+			return ERROR_RECOGNIZER_FAILED_RECOGNITION;
+		}
+	}
+	
+	void Recognizer::GetLastRecognitionResults(int& lastLabel, double& lastConfidence)
+	{
+		lastLabel = this->lastRecognitionLablel;
+		lastConfidence = this->lastRecognitionConfidence;
+	}
+
+	void Recognizer::SetLastRecognitionResults(int& label, double& confidence)
+	{
+		this->lastRecognitionLablel = label;
+		this->lastRecognitionConfidence = confidence;
+	}
+
+	int Recognizer::TrainModel()
+	{
+		try
 		{
 			model->train(images, labels);
 			return ECODE_SUCCESS;
 		}
-		else
+		catch (std::exception& ex)
 		{
 			return ECODE_FAILURE;
-		}		
+		}
 	}
 
-	void Recognizer::RecognizeFace(Mat& face, int& label, double& confidence)
+	int Recognizer::TrainModel(std::vector<Mat>& cImages, std::vector<int> cLabels)
 	{
-		model->predict(face, label, confidence);	
+		try
+		{
+			model->train(cImages, cLabels);
+			return ECODE_SUCCESS;
+		}
+		catch (std::exception& ex)
+		{
+			return ECODE_FAILURE;
+		}
 	}
 }

@@ -75,7 +75,7 @@ namespace Helpers
 	{
 		std::string filePath;
 		std::stringstream ss;
-		ss << OWNER_FACES_FOLDER << time(nullptr) << ".jpg";
+		ss << OWNER_FACES_FOLDER << time(nullptr) << ".bmp";
 		filePath = ss.str();
 
 		imwrite(filePath, imageMat);

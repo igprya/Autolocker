@@ -20,11 +20,20 @@ namespace Processing
 			Recognizer();
 			~Recognizer();
 			int InitRecognition(std::string facesDirectoryPath);
-			void RecognizeFace(Mat& face, int& label, double& confidence);
+			int TrainModel();
+			int TrainModel(std::vector<Mat>& cImages, std::vector<int> cLabels);
+			int RecognizeFace(Mat& face, int& label, double& confidence);
+			void GetLastRecognitionResults(int& lastLabel, double& lastConfidence);
+
 		private:
+			void SetLastRecognitionResults(int& label, double &confidence);
+
 			std::vector<Mat> images;
 			std::vector<int> labels;
 			Ptr<FaceRecognizer> model;
+			int lastRecognitionLablel = 0;
+			double lastRecognitionConfidence = 150;
+			
 	};
 }
 

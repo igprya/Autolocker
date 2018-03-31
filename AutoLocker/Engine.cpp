@@ -90,32 +90,44 @@ int Engine::EngineCycle()
 		failedDetectionCount = 0;
 	}
 
-	DrawFaceFrames(currentFrame, faces);
-	imshow("dbg-enginecycle", currentFrame);
-	waitKey(5);
-
-	//if (IsRecognitionRequired(recognizer->GetOperationTime())) {
-	if (true) {
+	if (IsRecognitionRequired(recognizer->GetOperationTime())) {
 		std::vector<Mat> faceMats = detector->GetFaces(currentFrame);
 
 		if (faceMats.size() > 0)
 		{
-			int label = 0;
-			double confidence = 0;
+			int recognitionLabel = 0;
+			double recognitionConfidence = 0;
 
 			Mat face = faceMats[0];
 
-			recognizer->RecognizeFace(face, label, confidence);
-			std::cout << "Recognized " << label << " with confidence " << confidence << std::endl;
+			recognizer->RecognizeFace(face, recognitionLabel, recognitionConfidence);
+			std::cout << "Recognized " << recognitionLabel << " with confidence " << recognitionConfidence << std::endl;
 		}
 	}
+
+	#ifdef _DEBUG
+
+	std::stringstream ss;
+	int recognitionLabel = 0;
+	double recognitionConfidence = 0;
+
+	recognizer->GetLastRecognitionResults(recognitionLabel, recognitionConfidence);
+	ss << recognitionLabel << " (" << recognitionConfidence << ")";
+
+	DrawFaceFrames(currentFrame, faces);
+	putText(currentFrame, ss.str(), Point(10, 50), HersheyFonts::FONT_HERSHEY_PLAIN, 2, Scalar::all(255), 2);
+	imshow("dbg-enginecycle", currentFrame);
+	waitKey(5);
+
+	#endif // _DEBUG
+
 
 	return ECODE_SUCCESS;
 }
 
 bool Engine::IsRecognitionRequired(time_t lastRecognition)
 {
-	double timeDifference = std::difftime(lastRecognition, std::time(nullptr));
+	double timeDifference = std::difftime(std::time(nullptr), lastRecognition);
 
 	if (timeDifference > recognitionInterval) {
 		return true;
