@@ -9,11 +9,10 @@
 #include <opencv2\imgproc.hpp>
 #include <opencv2\imgcodecs.hpp>
 
-#include "ExitCodes.h"
-#include "Capturer.h"
-#include "Detector.h"
-#include "Recognizer.h"
-#include "WinLocker.h"
+#include "Processors\Capturer.h"
+#include "Processors\Detector.h"
+#include "Processors\Recognizer.h"
+#include "Helpers\KeyKeepers\WinLocker.h"
 
 using namespace cv;
 

@@ -13,20 +13,29 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Processing">
-      <UniqueIdentifier>{cb75a53e-3339-45a6-9e08-d8f4b03114be}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Helpers">
-      <UniqueIdentifier>{06241885-aaad-48fd-8f1e-8627e4bf2a86}</UniqueIdentifier>
+      <UniqueIdentifier>{9e8fae6c-90af-45b1-960f-2ed0e525a78e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Helpers\Timer">
-      <UniqueIdentifier>{02f3f5f5-c081-4053-b6c3-18ead9933bf7}</UniqueIdentifier>
+      <UniqueIdentifier>{3d91ea7b-c4ad-45d0-badc-6dbb11c3ddc2}</UniqueIdentifier>
     </Filter>
     <Filter Include="Helpers\FaceCapturer">
-      <UniqueIdentifier>{23b62557-bf15-4b04-9b3f-d1493422f3f3}</UniqueIdentifier>
+      <UniqueIdentifier>{ee6db82b-ebd7-46dc-9ab9-1f0e05e5da70}</UniqueIdentifier>
     </Filter>
     <Filter Include="Helpers\Keykeepers">
-      <UniqueIdentifier>{9d510d4b-e073-4667-9f6f-f95b678bb3f1}</UniqueIdentifier>
+      <UniqueIdentifier>{e140b29d-b43d-4904-834a-4cd13db93f02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Processors">
+      <UniqueIdentifier>{76849031-026c-4a3b-9307-73e4ba846814}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Processors\Capturer">
+      <UniqueIdentifier>{644bc43e-5f12-4239-9391-8ecf9b097531}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Processors\Detector">
+      <UniqueIdentifier>{f84b7591-6e37-4427-9ed9-9f9af6fc636c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Processors\Recognizer">
+      <UniqueIdentifier>{f2cd183f-7728-4fc9-a6df-410fb9c37402}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -36,35 +45,35 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Recognizer.h">
-      <Filter>Processing</Filter>
-    </ClInclude>
-    <ClInclude Include="Detector.h">
-      <Filter>Processing</Filter>
-    </ClInclude>
     <ClInclude Include="Engine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ExitCodes.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Capturer.h">
-      <Filter>Processing</Filter>
-    </ClInclude>
-    <ClInclude Include="Globals.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Timer.h">
+    <ClInclude Include="Helpers\Timer\Timer.h">
       <Filter>Helpers\Timer</Filter>
     </ClInclude>
-    <ClInclude Include="FaceCapturer.h">
+    <ClInclude Include="Helpers\FaceCapturer\FaceCapturer.h">
       <Filter>Helpers\FaceCapturer</Filter>
     </ClInclude>
-    <ClInclude Include="Keykeeper.h">
+    <ClInclude Include="Helpers\KeyKeepers\WinLocker.h">
       <Filter>Helpers\Keykeepers</Filter>
     </ClInclude>
-    <ClInclude Include="WinLocker.h">
+    <ClInclude Include="Helpers\KeyKeepers\Keykeeper.h">
       <Filter>Helpers\Keykeepers</Filter>
+    </ClInclude>
+    <ClInclude Include="Processors\Capturer.h">
+      <Filter>Processors\Capturer</Filter>
+    </ClInclude>
+    <ClInclude Include="Processors\Detector.h">
+      <Filter>Processors\Detector</Filter>
+    </ClInclude>
+    <ClInclude Include="Processors\Recognizer.h">
+      <Filter>Processors\Recognizer</Filter>
+    </ClInclude>
+    <ClInclude Include="Helpers\ExitCodes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Helpers\Globals.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -74,26 +83,26 @@
     <ClCompile Include="AutoLocker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Recognizer.cpp">
-      <Filter>Processing</Filter>
-    </ClCompile>
-    <ClCompile Include="Detector.cpp">
-      <Filter>Processing</Filter>
-    </ClCompile>
     <ClCompile Include="Engine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Capturer.cpp">
-      <Filter>Processing</Filter>
-    </ClCompile>
-    <ClCompile Include="Timer.cpp">
+    <ClCompile Include="Helpers\Timer\Timer.cpp">
       <Filter>Helpers\Timer</Filter>
     </ClCompile>
-    <ClCompile Include="FaceCapturer.cpp">
+    <ClCompile Include="Helpers\FaceCapturer\FaceCapturer.cpp">
       <Filter>Helpers\FaceCapturer</Filter>
     </ClCompile>
-    <ClCompile Include="WinLocker.cpp">
+    <ClCompile Include="Helpers\KeyKeepers\WinLocker.cpp">
       <Filter>Helpers\Keykeepers</Filter>
+    </ClCompile>
+    <ClCompile Include="Processors\Capturer.cpp">
+      <Filter>Processors\Capturer</Filter>
+    </ClCompile>
+    <ClCompile Include="Processors\Detector.cpp">
+      <Filter>Processors\Detector</Filter>
+    </ClCompile>
+    <ClCompile Include="Processors\Recognizer.cpp">
+      <Filter>Processors\Recognizer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

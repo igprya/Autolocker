@@ -1,5 +1,4 @@
 #pragma once
-#include "stdafx.h"
 #include <string>
 
 const static int ENGINE_RPM = 50;

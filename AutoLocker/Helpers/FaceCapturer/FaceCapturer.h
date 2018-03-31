@@ -7,10 +7,8 @@
 #include <opencv2\imgcodecs.hpp>
 #include <opencv2\highgui.hpp>
 
-#include "Globals.h"
-#include "ExitCodes.h"
-#include "Capturer.h"
-#include "Detector.h"
+#include "..\..\Processors\Capturer.h"
+#include "..\..\Processors\Detector.h"
 
 using namespace Processing;
 
