@@ -1,9 +1,9 @@
 #pragma once
-#include "Keykeeper.h"
+#include "BaseLocker.h"
 
 namespace Helpers 
 {
-	class WinLocker : public Keykeeper
+	class WinLocker : public BaseLocker
 	{
 		public:
 			int Lock();

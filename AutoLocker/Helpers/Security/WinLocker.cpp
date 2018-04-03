@@ -12,7 +12,7 @@ namespace Helpers
 
 		//SendMessage(HWND_BROADCAST, WM_SYSCOMMAND, SC_MONITORPOWER, 1);
 
-		printf("Locked");
+		printf("Locked\n");
 
 		isLocked = true;
 
@@ -27,7 +27,7 @@ namespace Helpers
 
 		//SendMessage(HWND_BROADCAST, WM_SYSCOMMAND, SC_MONITORPOWER, -1);
 
-		printf("Unlocked");
+		printf("Unlocked\n");
 
 		isLocked = false;
 

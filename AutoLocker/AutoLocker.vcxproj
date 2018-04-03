@@ -165,12 +165,13 @@
     <ClInclude Include="Helpers\Globals.h" />
     <ClInclude Include="Helpers\ExitCodes.h" />
     <ClInclude Include="Helpers\FaceCapturer\FaceCapturer.h" />
-    <ClInclude Include="Helpers\KeyKeepers\Keykeeper.h" />
-    <ClInclude Include="Helpers\KeyKeepers\WinLocker.h" />
+    <ClInclude Include="Helpers\Security\BaseLocker.h" />
+    <ClInclude Include="Helpers\Security\WinLocker.h" />
     <ClInclude Include="Helpers\Timer\Timer.h" />
     <ClInclude Include="Processors\Capturer.h" />
     <ClInclude Include="Processors\Detector.h" />
     <ClInclude Include="Processors\Recognizer.h" />
+    <ClInclude Include="Helpers\Security\SecurityProvider.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
@@ -178,7 +179,8 @@
     <ClCompile Include="AutoLocker.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Helpers\FaceCapturer\FaceCapturer.cpp" />
-    <ClCompile Include="Helpers\KeyKeepers\WinLocker.cpp" />
+    <ClCompile Include="Helpers\Security\SecurityProvider.cpp" />
+    <ClCompile Include="Helpers\Security\WinLocker.cpp" />
     <ClCompile Include="Helpers\Timer\Timer.cpp" />
     <ClCompile Include="Processors\Capturer.cpp" />
     <ClCompile Include="Processors\Detector.cpp" />

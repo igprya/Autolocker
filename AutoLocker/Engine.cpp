@@ -12,7 +12,7 @@ Engine::Engine()
 
 Engine::~Engine()
 {
-	delete keykeeper;
+	delete securityProvider;
 	delete capturer;
 	delete detector;
 	delete recognizer;
@@ -20,19 +20,24 @@ Engine::~Engine()
 
 int Engine::Start()
 {
+	int cycleResult;
+	bool recognitionRequired;
 	int engInitResult = InitEngine();
 
-	if (engInitResult < ECODE_SUCCESS) {
-		keykeeper->Lock();
+	if (engInitResult < ECODE_SUCCESS) {		
 		return engInitResult;
 	}
 
 	while (true)
 	{
-		int cycleResult = EngineCycle();		
-
+		recognitionRequired = securityProvider->IsRecognitionRequired(recognizer->GetOperationTime());
+		cycleResult = recognitionRequired ? RecognizeFace() : DetectFace();
+		
 		if (cycleResult < ECODE_SUCCESS) 
+		{
+			securityProvider->ForceLockdown();	
 			return cycleResult;
+		}		
 
 		std::this_thread::sleep_for(std::chrono::milliseconds(ENGINE_RPM));
 	}
@@ -42,7 +47,10 @@ int Engine::Start()
 
 int Engine::InitEngine()
 {
-	keykeeper = new Helpers::WinLocker();
+	securityProvider = new Helpers::SecurityProvider(ENGINE_DETECTION_FAILURE_THRESHOLD
+		, ENGINE_RECOGNITION_FAILURE_THRESHOLD
+		, ENGINE_RECOGNITION_INTERVAL
+	);
 
 	bool capturerRunning = false;
 	bool detectorRunning = false;
@@ -62,58 +70,81 @@ int Engine::InitEngine()
 
 	if (!recognizerRunning) {
 		return ERROR_RECOGNIZER_FAILED_INIT;
-	}
+	}	
 
 	return ECODE_SUCCESS;
 }
 
-int Engine::EngineCycle()
+int Engine::DetectFace()
 {
-	int handleResult = ECODE_SUCCESS;
+	bool detectionSuccess = false;
+	Mat frame = capturer->GetFrame();
 
-	currentFrame = capturer->GetFrame();
-
-	if (currentFrame.empty()) {
+	if (frame.empty())
 		return ERROR_CAPTURER_NOFRAME;
-	}
 
-	std::vector<Rect> faces = detector->GetFaceRects(currentFrame);
+	std::vector<Rect> faces = detector->GetFaceRects(frame);
 
-	if (faces.size() == 0) 
+	if (faces.size() > 0)
+		detectionSuccess = true;
+
+
+	if (detectionSuccess)
+		securityProvider->HandleDetectionSuccess();
+	else
+		securityProvider->HandleDetectionFailure();	
+
+	return ECODE_SUCCESS;
+}
+
+int Engine::RecognizeFace()
+{
+	bool recognitionSuccess = false;
+	Mat frame = capturer->GetFrame();
+
+	if (frame.empty())
+		return ERROR_CAPTURER_NOFRAME;
+
+	std::vector<Mat> faceMats = detector->GetFaces(frame);
+
+	int label = 0;
+	double confidence = 0;
+
+	if (faceMats.size() > 0)
 	{
-		handleResult = HandleDetectionFailure();
-		if (handleResult < ECODE_SUCCESS) {
-			return handleResult;
-		}
-	}
-	else {
-		failedDetectionCount = 0;
-	}
-
-	if (IsRecognitionRequired(recognizer->GetOperationTime())) {
-		std::vector<Mat> faceMats = detector->GetFaces(currentFrame);
-
-		if (faceMats.size() > 0)
+		for (int i = 0; i < faceMats.size(); i++) 
 		{
-			int recognitionLabel = 0;
-			double recognitionConfidence = 0;
-
-			Mat face = faceMats[0];
-
-			recognizer->RecognizeFace(face, recognitionLabel, recognitionConfidence);
-			std::cout << "Recognized " << recognitionLabel << " with confidence " << recognitionConfidence << std::endl;
-
-			if (recognitionLabel != 1) {
-				HandleRecognitionFailure();
-			}
-			else {
-				HandleRecognitionSuccess();
-			}
+			recognizer->RecognizeFace(faceMats[i], label, confidence);
+			recognitionSuccess = securityProvider->TryAuthorize(label, confidence);
 		}
 	}
 
-	#ifdef _DEBUG
+	if (recognitionSuccess)
+		securityProvider->HandleRecognitionSuccess();
+	else
+		securityProvider->HandleRecognitionFailure();
 
+	return ECODE_SUCCESS;
+}
+
+
+void Engine::DrawFaceFrames(Mat& frame, std::vector<Rect>& detectedFaces)
+{
+	size_t currentIndex = 0;
+	int currentArea = 0;
+
+	for (currentIndex = 0; currentIndex < detectedFaces.size(); currentIndex++)
+	{
+		Point pt1 = Point(detectedFaces[currentIndex].x, detectedFaces[currentIndex].y);
+		Point pt2 = Point(detectedFaces[currentIndex].x + detectedFaces[currentIndex].height, detectedFaces[currentIndex].y + detectedFaces[currentIndex].width);
+
+		rectangle(frame, pt1, pt2, 8);
+	}
+}
+
+
+void Engine::ShowUI(Mat& frame, std::vector<Rect>& faces)
+{
 	std::stringstream ss;
 	int recognitionLabel = 0;
 	double recognitionConfidence = 0;
@@ -121,77 +152,8 @@ int Engine::EngineCycle()
 	recognizer->GetLastRecognitionResults(recognitionLabel, recognitionConfidence);
 	ss << recognitionLabel << " (" << recognitionConfidence << ")";
 
-	DrawFaceFrames(currentFrame, faces);
-	putText(currentFrame, ss.str(), Point(10, 50), HersheyFonts::FONT_HERSHEY_PLAIN, 2, Scalar::all(255), 2);
-	imshow("dbg-enginecycle", currentFrame);
+	DrawFaceFrames(frame, faces);
+	putText(frame, ss.str(), Point(10, 50), HersheyFonts::FONT_HERSHEY_PLAIN, 2, Scalar::all(255), 2);
+	imshow("dbg-enginecycle", frame);
 	waitKey(5);
-
-	#endif // _DEBUG
-
-
-	return ECODE_SUCCESS;
-}
-
-bool Engine::IsRecognitionRequired(time_t lastRecognition)
-{
-	double timeDifference = std::difftime(std::time(nullptr), lastRecognition);
-
-	if (timeDifference > recognitionInterval) {
-		return true;
-	}
-	else {
-		return false;
-	}
-}
-
-int Engine::HandleDetectionFailure()
-{
-	failedDetectionCount++;
-
-	if (failedDetectionCount > failedDetectionsThreshold) {
-		failedDetectionCount = 0;
-
-		return keykeeper->Lock();
-	}
-
-	return ECODE_SUCCESS;
-}
-
-int Engine::HandleRecognitionFailure()
-{
-	failedRecognitionCount++;
-
-	if (failedRecognitionCount > failedRecognitionsThreshold) {
-		failedRecognitionCount = 0;
-
-		return keykeeper->Lock();
-	}
-
-	return ECODE_SUCCESS;
-}
-
-int Engine::HandleRecognitionSuccess()
-{
-	failedDetectionCount = 0;
-
-	if (keykeeper->IsLocked())
-		keykeeper->Unlock();
-
-	return ECODE_SUCCESS;
-}
-
-int Engine::DrawFaceFrames(Mat& frame, std::vector<Rect>& detectedFaces)
-{
-	size_t currentIndex = 0;
-	int currentArea = 0;
-
-	for (currentIndex = 0; currentIndex < detectedFaces.size(); currentIndex++) 
-	{
-		Point pt1 = Point(detectedFaces[currentIndex].x, detectedFaces[currentIndex].y);
-		Point pt2 = Point(detectedFaces[currentIndex].x + detectedFaces[currentIndex].height, detectedFaces[currentIndex].y + detectedFaces[currentIndex].width);
-
-		rectangle(frame, pt1, pt2, 8);
-	}
-
-	return ECODE_SUCCESS;
 }

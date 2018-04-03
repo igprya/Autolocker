@@ -9,10 +9,10 @@
 #include <opencv2\imgproc.hpp>
 #include <opencv2\imgcodecs.hpp>
 
+#include "Helpers\Security\SecurityProvider.h"
 #include "Processors\Capturer.h"
 #include "Processors\Detector.h"
 #include "Processors\Recognizer.h"
-#include "Helpers\KeyKeepers\WinLocker.h"
 
 using namespace cv;
 
@@ -25,25 +25,15 @@ class Engine
 
 	private:
 		int InitEngine();
-		int EngineCycle();
-		bool IsRecognitionRequired(time_t lastRecognition);
-		int HandleDetectionFailure();
-		int HandleRecognitionFailure();
-		int HandleRecognitionSuccess();
-		int DrawFaceFrames(Mat& frame, std::vector<Rect>& detectedFaces);
+		int DetectFace();
+		int RecognizeFace();
 
-		int failedDetectionCount = 0;
-		int failedDetectionsThreshold = ENGINE_DETECTION_FAILURE_THRESHOLD;
+		void ShowUI(Mat& frame, std::vector<Rect>& faces);
+		void DrawFaceFrames(Mat& frame, std::vector<Rect>& detectedFaces);
 
-		int failedRecognitionCount = 0;
-		int recognitionInterval = ENGINE_RECOGNITION_INTERVAL;
-		int failedRecognitionsThreshold = ENGINE_RECOGNITION_FAILURE_THRESHOLD;
-
-		Helpers::Keykeeper* keykeeper = NULL;
-		
-		Mat currentFrame;
-		Processing::Capturer* capturer = NULL;
-		Processing::Detector* detector = NULL;
-		Processing::Recognizer* recognizer = NULL;
+		Helpers::SecurityProvider* securityProvider = nullptr;
+		Processing::Capturer* capturer = nullptr;
+		Processing::Detector* detector = nullptr;
+		Processing::Recognizer* recognizer = nullptr;
 };
 

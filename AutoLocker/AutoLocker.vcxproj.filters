@@ -22,9 +22,6 @@
     <Filter Include="Helpers\FaceCapturer">
       <UniqueIdentifier>{ee6db82b-ebd7-46dc-9ab9-1f0e05e5da70}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Helpers\Keykeepers">
-      <UniqueIdentifier>{e140b29d-b43d-4904-834a-4cd13db93f02}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Processors">
       <UniqueIdentifier>{76849031-026c-4a3b-9307-73e4ba846814}</UniqueIdentifier>
     </Filter>
@@ -36,6 +33,9 @@
     </Filter>
     <Filter Include="Processors\Recognizer">
       <UniqueIdentifier>{f2cd183f-7728-4fc9-a6df-410fb9c37402}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Helpers\Security">
+      <UniqueIdentifier>{c816b2db-3326-4e30-80a2-349d6e68de86}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -54,12 +54,6 @@
     <ClInclude Include="Helpers\FaceCapturer\FaceCapturer.h">
       <Filter>Helpers\FaceCapturer</Filter>
     </ClInclude>
-    <ClInclude Include="Helpers\KeyKeepers\WinLocker.h">
-      <Filter>Helpers\Keykeepers</Filter>
-    </ClInclude>
-    <ClInclude Include="Helpers\KeyKeepers\Keykeeper.h">
-      <Filter>Helpers\Keykeepers</Filter>
-    </ClInclude>
     <ClInclude Include="Processors\Capturer.h">
       <Filter>Processors\Capturer</Filter>
     </ClInclude>
@@ -70,10 +64,19 @@
       <Filter>Processors\Recognizer</Filter>
     </ClInclude>
     <ClInclude Include="Helpers\ExitCodes.h">
-      <Filter>Header Files</Filter>
+      <Filter>Helpers</Filter>
     </ClInclude>
     <ClInclude Include="Helpers\Globals.h">
-      <Filter>Header Files</Filter>
+      <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="Helpers\Security\WinLocker.h">
+      <Filter>Helpers\Security</Filter>
+    </ClInclude>
+    <ClInclude Include="Helpers\Security\SecurityProvider.h">
+      <Filter>Helpers\Security</Filter>
+    </ClInclude>
+    <ClInclude Include="Helpers\Security\BaseLocker.h">
+      <Filter>Helpers\Security</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -92,9 +95,6 @@
     <ClCompile Include="Helpers\FaceCapturer\FaceCapturer.cpp">
       <Filter>Helpers\FaceCapturer</Filter>
     </ClCompile>
-    <ClCompile Include="Helpers\KeyKeepers\WinLocker.cpp">
-      <Filter>Helpers\Keykeepers</Filter>
-    </ClCompile>
     <ClCompile Include="Processors\Capturer.cpp">
       <Filter>Processors\Capturer</Filter>
     </ClCompile>
@@ -103,6 +103,12 @@
     </ClCompile>
     <ClCompile Include="Processors\Recognizer.cpp">
       <Filter>Processors\Recognizer</Filter>
+    </ClCompile>
+    <ClCompile Include="Helpers\Security\WinLocker.cpp">
+      <Filter>Helpers\Security</Filter>
+    </ClCompile>
+    <ClCompile Include="Helpers\Security\SecurityProvider.cpp">
+      <Filter>Helpers\Security</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
