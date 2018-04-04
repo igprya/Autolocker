@@ -33,8 +33,7 @@ int Engine::Start()
 		recognitionRequired = securityProvider->IsRecognitionRequired(recognizer->GetOperationTime());
 		cycleResult = recognitionRequired ? RecognizeFace() : DetectFace();
 		
-		if (cycleResult < ECODE_SUCCESS) 
-		{
+		if (cycleResult < ECODE_SUCCESS) {
 			securityProvider->ForceLockdown();	
 			return cycleResult;
 		}		
@@ -80,19 +79,22 @@ int Engine::DetectFace()
 	bool detectionSuccess = false;
 	Mat frame = capturer->GetFrame();
 
-	if (frame.empty())
+	if (frame.empty()) {
 		return ERROR_CAPTURER_NOFRAME;
+	}
 
 	std::vector<Rect> faces = detector->GetFaceRects(frame);
 
-	if (faces.size() > 0)
+	if (faces.size() > 0) {
 		detectionSuccess = true;
+	}
 
-
-	if (detectionSuccess)
+	if (detectionSuccess) {
 		securityProvider->HandleDetectionSuccess();
-	else
-		securityProvider->HandleDetectionFailure();	
+	}
+	else {
+		securityProvider->HandleDetectionFailure();
+	}
 
 	return ECODE_SUCCESS;
 }
@@ -102,13 +104,14 @@ int Engine::RecognizeFace()
 	bool recognitionSuccess = false;
 	Mat frame = capturer->GetFrame();
 
-	if (frame.empty())
+	if (frame.empty()) {
 		return ERROR_CAPTURER_NOFRAME;
+	}
 
 	std::vector<Mat> faceMats = detector->GetFaces(frame);
 
 	int label = 0;
-	double confidence = 0;
+	double confidence = 0.0;
 
 	if (faceMats.size() > 0)
 	{
@@ -119,10 +122,12 @@ int Engine::RecognizeFace()
 		}
 	}
 
-	if (recognitionSuccess)
+	if (recognitionSuccess) {
 		securityProvider->HandleRecognitionSuccess();
-	else
+	}
+	else {
 		securityProvider->HandleRecognitionFailure();
+	}
 
 	return ECODE_SUCCESS;
 }

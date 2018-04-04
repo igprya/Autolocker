@@ -7,10 +7,6 @@ namespace Processing
 	{
 		model = LBPHFaceRecognizer::create(2, 16);
 	}
-	
-	Recognizer::~Recognizer()
-	{
-	}
 
 	int Recognizer::InitRecognition(std::string facesDirectoryPath)
 	{	
@@ -30,8 +26,7 @@ namespace Processing
 		}
 
 		if (labels.size() > 0 && images.size() > 0) {
-			TrainModel();
-			
+			TrainModel();			
 			return ECODE_SUCCESS;
 		}
 

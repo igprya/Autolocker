@@ -17,7 +17,6 @@ namespace Processing
 	{
 		public:
 			Recognizer();
-			~Recognizer();
 			int InitRecognition(std::string facesDirectoryPath);
 			int TrainModel();
 			int TrainModel(std::vector<Mat>& cImages, std::vector<int> cLabels);

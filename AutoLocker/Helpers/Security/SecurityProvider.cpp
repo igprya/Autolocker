@@ -19,13 +19,13 @@ namespace Helpers
 	
 	bool SecurityProvider::IsRecognitionRequired(time_t lastRecognitionTime)
 	{
-		if (securityState == SecurityState::ALERT || securityState == SecurityState::LOCKDOWN)
+		if (securityState == SecurityState::ALERT || securityState == SecurityState::LOCKDOWN) {
 			return true;
+		}
 
 		double timeDifference = std::difftime(std::time(nullptr), lastRecognitionTime);
 
-		if (timeDifference > recognitionInterval)
-		{
+		if (timeDifference > recognitionInterval) {
 			return true;
 		}
 		
@@ -34,8 +34,9 @@ namespace Helpers
 
 	bool SecurityProvider::TryAuthorize(int& label, double& distance)
 	{
-		if (label == 1 && distance <= 100)
+		if (label == 1 && distance <= 100) {
 			return true;
+		}
 
 		return false;
 	}
@@ -72,8 +73,7 @@ namespace Helpers
 	{
 		DropCounter(recognitionFailureCount);
 
-		if (securityState == SecurityState::LOCKDOWN)
-		{
+		if (securityState == SecurityState::LOCKDOWN) {
 			ReleaseLockdown();
 		}
 
