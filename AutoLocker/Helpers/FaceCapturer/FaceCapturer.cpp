@@ -53,12 +53,14 @@ namespace Helpers
 
 				faces = detector->GetFaces(currentFrame);
 
-				if (faces.size() > 0)
+				if (faces.size() > 0) {
 					break;
+				}
 			}
 
-			if (faces.size() == 0)
+			if (faces.size() == 0) {
 				return ECODE_FAILURE;
+			}
 
 			firstFace = faces[0];
 

@@ -46,8 +46,7 @@ namespace Helpers
 	{
 		IncCount(detectionFailureCount);
 
-		if (detectionFailureCount > detectionFailureThreshold) 
-		{
+		if (detectionFailureCount > detectionFailureThreshold) {
 			SetSecurityState(SecurityState::ALERT);
 			DropCounter(detectionFailureCount);
 		}
@@ -66,8 +65,7 @@ namespace Helpers
 	{
 		IncCount(recognitionFailureCount);
 
-		if (recognitionFailureCount > recognitionFailureThreshold)
-		{
+		if (recognitionFailureCount > recognitionFailureThreshold) {
 			SetLockdown();
 			SetSecurityState(SecurityState::LOCKDOWN);
 			DropCounter(recognitionFailureCount);
@@ -94,12 +92,10 @@ namespace Helpers
 
 	void SecurityProvider::SetSecurityState(SecurityState state)
 	{
-		if (state != securityState)
-		{
+		if (state != securityState)	{
 			securityState = state;
 
-			if (securedObject)
-			{
+			if (securedObject) {
 				securedObject->SecurityStateChanged(GetRequiredAction());
 			}
 		}

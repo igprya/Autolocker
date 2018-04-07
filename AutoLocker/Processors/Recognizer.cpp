@@ -35,15 +35,13 @@ namespace Processing
 
 	int Recognizer::RecognizeFace(Mat& face, int& label, double& confidence)
 	{
-		try
-		{
+		try	{
 			model->predict(face, label, confidence);
 			SetLastRecognitionResults(label, confidence);
 
 			return ECODE_SUCCESS;
 		}
-		catch (const std::exception& ex)
-		{
+		catch (const std::exception& ex) {
 			return ERROR_RECOGNIZER_FAILED_RECOGNITION;
 		}
 	}
@@ -62,26 +60,22 @@ namespace Processing
 
 	int Recognizer::TrainModel()
 	{
-		try
-		{
+		try	{
 			model->train(images, labels);
 			return ECODE_SUCCESS;
 		}
-		catch (std::exception& ex)
-		{
+		catch (std::exception& ex)	{
 			return ECODE_FAILURE;
 		}
 	}
 
 	int Recognizer::TrainModel(std::vector<Mat>& cImages, std::vector<int> cLabels)
 	{
-		try
-		{
+		try	{
 			model->train(cImages, cLabels);
 			return ECODE_SUCCESS;
 		}
-		catch (std::exception& ex)
-		{
+		catch (std::exception& ex)	{
 			return ECODE_FAILURE;
 		}
 	}

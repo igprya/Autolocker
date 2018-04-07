@@ -27,7 +27,7 @@ int Engine::Start()
 		return engInitResult;
 	}
 
-	while (engineAction != nullptr)
+	while (engineAction != nullptr)	
 	{
 		engineActionResult = (this->*engineAction)();
 
@@ -113,8 +113,7 @@ int Engine::RecognizeFace()
 	int label = 0;
 	double confidence = 0.0;
 
-	if (faceMats.size() > 0)
-	{
+	if (faceMats.size() > 0) {
 		for (int i = 0; i < faceMats.size(); i++) 
 		{
 			recognizer->RecognizeFace(faceMats[i], label, confidence);
@@ -134,15 +133,17 @@ int Engine::RecognizeFace()
 
 void Engine::SecurityStateChanged(Helpers::SecurityAction action)
 {
-	if (action == Helpers::RECOGNIZE)
+	if (action == Helpers::RECOGNIZE) {
 		SetAction(&Engine::RecognizeFace);
-	else
+	}
+	else {
 		SetAction(&Engine::DetectFace);
+	}
 }
 
-void Engine::SetAction(engine_fptr nextStep)
+void Engine::SetAction(engine_fptr nextAction)
 {
-	this->engineAction = nextStep;
+	this->engineAction = nextAction;
 }
 
 void Engine::DrawFaceFrames(Mat& frame, std::vector<Rect>& detectedFaces)
@@ -150,8 +151,7 @@ void Engine::DrawFaceFrames(Mat& frame, std::vector<Rect>& detectedFaces)
 	size_t currentIndex = 0;
 	int currentArea = 0;
 
-	for (currentIndex = 0; currentIndex < detectedFaces.size(); currentIndex++)
-	{
+	for (currentIndex = 0; currentIndex < detectedFaces.size(); currentIndex++)	{
 		Point pt1 = Point(detectedFaces[currentIndex].x, detectedFaces[currentIndex].y);
 		Point pt2 = Point(detectedFaces[currentIndex].x + detectedFaces[currentIndex].height, detectedFaces[currentIndex].y + detectedFaces[currentIndex].width);
 

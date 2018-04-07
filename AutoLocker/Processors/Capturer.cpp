@@ -19,7 +19,7 @@ namespace Processing
 	}
 	Mat Capturer::GetFrame()
 	{
-		static Mat currentFrame;
+		Mat currentFrame;
 
 		if (!capture.isOpened()) {
 			return Mat();
