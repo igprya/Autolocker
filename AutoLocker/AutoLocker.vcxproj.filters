@@ -16,9 +16,6 @@
     <Filter Include="Helpers">
       <UniqueIdentifier>{9e8fae6c-90af-45b1-960f-2ed0e525a78e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Helpers\Timer">
-      <UniqueIdentifier>{3d91ea7b-c4ad-45d0-badc-6dbb11c3ddc2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Helpers\FaceCapturer">
       <UniqueIdentifier>{ee6db82b-ebd7-46dc-9ab9-1f0e05e5da70}</UniqueIdentifier>
     </Filter>
@@ -48,9 +45,6 @@
     <ClInclude Include="Engine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Helpers\Timer\Timer.h">
-      <Filter>Helpers\Timer</Filter>
-    </ClInclude>
     <ClInclude Include="Helpers\FaceCapturer\FaceCapturer.h">
       <Filter>Helpers\FaceCapturer</Filter>
     </ClInclude>
@@ -78,6 +72,9 @@
     <ClInclude Include="Helpers\Security\BaseLocker.h">
       <Filter>Helpers\Security</Filter>
     </ClInclude>
+    <ClInclude Include="Helpers\Security\ISecurable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -88,9 +85,6 @@
     </ClCompile>
     <ClCompile Include="Engine.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Helpers\Timer\Timer.cpp">
-      <Filter>Helpers\Timer</Filter>
     </ClCompile>
     <ClCompile Include="Helpers\FaceCapturer\FaceCapturer.cpp">
       <Filter>Helpers\FaceCapturer</Filter>

@@ -26,8 +26,6 @@ namespace Processing
 
 		classifier->detectMultiScale(frameGray, detectedFaces, 1.2, 2, 0 | CASCADE_SCALE_IMAGE, Size(100,100));
 
-		SetOperationTime();
-
 		return detectedFaces;
 	}
 

@@ -31,8 +31,6 @@ namespace Processing
 			return Mat();
 		}
 
-		SetOperationTime();
-
 		return currentFrame;
 	}
 }

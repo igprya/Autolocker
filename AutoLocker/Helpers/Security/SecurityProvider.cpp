@@ -3,13 +3,16 @@
 
 namespace Helpers
 {
-	SecurityProvider::SecurityProvider(int detectionThreshold, int recognitionThreshold, int recognitionInterval)
+	SecurityProvider::SecurityProvider(int detectionThreshold, int recognitionThreshold, int recognitionInterval, ISecurable* securable)
 	{
 		this->detectionFailureThreshold = detectionThreshold;
 		this->recognitionFailureCount = recognitionFailureThreshold;
 		this->recognitionInterval = recognitionInterval;
-		this->lockdownProvider = new WinLocker();		
-		this->securityState = SecurityState::SECURE;
+		this->lockdownProvider = new WinLocker();	
+		this->securedObject = securable;
+		this->lastRecognitionTime = std::time(nullptr);
+
+		SetSecurityState(SecurityState::SECURE);
 	}
 
 	SecurityProvider::~SecurityProvider()
@@ -17,19 +20,17 @@ namespace Helpers
 		delete lockdownProvider;
 	}
 	
-	bool SecurityProvider::IsRecognitionRequired(time_t lastRecognitionTime)
+	SecurityAction SecurityProvider::GetRequiredAction()
 	{
 		if (securityState == SecurityState::ALERT || securityState == SecurityState::LOCKDOWN) {
-			return true;
+			return SecurityAction::RECOGNIZE;
 		}
 
-		double timeDifference = std::difftime(std::time(nullptr), lastRecognitionTime);
-
-		if (timeDifference > recognitionInterval) {
-			return true;
+		if (GetRecognitionTimeGap() > recognitionInterval) {
+			return SecurityAction::RECOGNIZE;
 		}
 		
-		return false;
+		return SecurityAction::DETECT;
 	}
 
 	bool SecurityProvider::TryAuthorize(int& label, double& distance)
@@ -55,6 +56,10 @@ namespace Helpers
 	void SecurityProvider::HandleDetectionSuccess()
 	{
 		DropCounter(detectionFailureCount);
+
+		if (GetRecognitionTimeGap() > recognitionInterval) {
+			SetSecurityState(SecurityState::ALERT);
+		}
 	}
 
 	void SecurityProvider::HandleRecognitionFailure()
@@ -77,12 +82,8 @@ namespace Helpers
 			ReleaseLockdown();
 		}
 
+		lastRecognitionTime = std::time(nullptr);
 		SetSecurityState(SecurityState::SECURE);
-	}
-
-	SecurityState SecurityProvider::GetSecurityState()
-	{
-		return securityState;
 	}
 
 	void SecurityProvider::ForceLockdown()
@@ -93,7 +94,15 @@ namespace Helpers
 
 	void SecurityProvider::SetSecurityState(SecurityState state)
 	{
-		securityState = state;
+		if (state != securityState)
+		{
+			securityState = state;
+
+			if (securedObject)
+			{
+				securedObject->SecurityStateChanged(GetRequiredAction());
+			}
+		}
 	}
 
 	void SecurityProvider::SetLockdown()
@@ -104,6 +113,11 @@ namespace Helpers
 	void SecurityProvider::ReleaseLockdown()
 	{
 		lockdownProvider->Unlock();
+	}
+
+	inline double SecurityProvider::GetRecognitionTimeGap()
+	{
+		return std::difftime(std::time(nullptr), lastRecognitionTime);
 	}
 
 	void SecurityProvider::IncCount(int& counter)

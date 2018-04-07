@@ -9,6 +9,7 @@
 #include <opencv2\imgproc.hpp>
 #include <opencv2\imgcodecs.hpp>
 
+#include "Helpers\Security\ISecurable.h"
 #include "Helpers\Security\SecurityProvider.h"
 #include "Processors\Capturer.h"
 #include "Processors\Detector.h"
@@ -16,7 +17,10 @@
 
 using namespace cv;
 
-class Engine
+class Engine;
+typedef int(Engine::*engine_fptr)();
+
+class Engine : public Helpers::ISecurable
 {
 	public:
 		Engine();
@@ -28,9 +32,13 @@ class Engine
 		int DetectFace();
 		int RecognizeFace();
 
+		void SecurityStateChanged(Helpers::SecurityAction action);
+		void SetAction(engine_fptr action);
+
 		void ShowUI(Mat& frame, std::vector<Rect>& faces);
 		void DrawFaceFrames(Mat& frame, std::vector<Rect>& detectedFaces);
-
+		
+		engine_fptr engineAction = nullptr;
 		Helpers::SecurityProvider* securityProvider = nullptr;
 		Processing::Capturer* capturer = nullptr;
 		Processing::Detector* detector = nullptr;

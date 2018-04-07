@@ -166,8 +166,8 @@
     <ClInclude Include="Helpers\ExitCodes.h" />
     <ClInclude Include="Helpers\FaceCapturer\FaceCapturer.h" />
     <ClInclude Include="Helpers\Security\BaseLocker.h" />
+    <ClInclude Include="Helpers\Security\ISecurable.h" />
     <ClInclude Include="Helpers\Security\WinLocker.h" />
-    <ClInclude Include="Helpers\Timer\Timer.h" />
     <ClInclude Include="Processors\Capturer.h" />
     <ClInclude Include="Processors\Detector.h" />
     <ClInclude Include="Processors\Recognizer.h" />
@@ -181,7 +181,6 @@
     <ClCompile Include="Helpers\FaceCapturer\FaceCapturer.cpp" />
     <ClCompile Include="Helpers\Security\SecurityProvider.cpp" />
     <ClCompile Include="Helpers\Security\WinLocker.cpp" />
-    <ClCompile Include="Helpers\Timer\Timer.cpp" />
     <ClCompile Include="Processors\Capturer.cpp" />
     <ClCompile Include="Processors\Detector.cpp" />
     <ClCompile Include="Processors\Recognizer.cpp" />

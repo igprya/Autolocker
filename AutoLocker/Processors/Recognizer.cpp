@@ -38,8 +38,7 @@ namespace Processing
 		try
 		{
 			model->predict(face, label, confidence);
-			this->SetLastRecognitionResults(label, confidence);
-			this->SetOperationTime();
+			SetLastRecognitionResults(label, confidence);
 
 			return ECODE_SUCCESS;
 		}

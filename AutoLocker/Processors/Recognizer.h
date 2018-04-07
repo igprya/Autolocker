@@ -6,14 +6,12 @@
 #include <opencv2\imgcodecs.hpp>
 #include <opencv2\face.hpp>
 
-#include "..\Helpers\Timer\Timer.h"
-
 using namespace cv;
 using namespace face;
 
 namespace Processing
 {
-	class Recognizer : public Helpers::Timer
+	class Recognizer
 	{
 		public:
 			Recognizer();

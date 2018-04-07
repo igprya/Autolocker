@@ -6,13 +6,11 @@
 #include <opencv2\imgproc.hpp>
 #include <opencv2\imgcodecs.hpp>
 
-#include "..\Helpers\Timer\Timer.h"
-
 using namespace cv;
 
 namespace Processing
 {
-	class Detector : public Helpers::Timer
+	class Detector
 	{
 		public:
 			~Detector();

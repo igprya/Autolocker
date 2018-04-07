@@ -20,23 +20,21 @@ Engine::~Engine()
 
 int Engine::Start()
 {
-	int cycleResult;
-	bool recognitionRequired;
 	int engInitResult = InitEngine();
+	int engineActionResult = ECODE_SUCCESS;
 
 	if (engInitResult < ECODE_SUCCESS) {		
 		return engInitResult;
 	}
 
-	while (true)
+	while (engineAction != nullptr)
 	{
-		recognitionRequired = securityProvider->IsRecognitionRequired(recognizer->GetOperationTime());
-		cycleResult = recognitionRequired ? RecognizeFace() : DetectFace();
-		
-		if (cycleResult < ECODE_SUCCESS) {
-			securityProvider->ForceLockdown();	
-			return cycleResult;
-		}		
+		engineActionResult = (this->*engineAction)();
+
+		if (engineActionResult < ECODE_SUCCESS)	{
+			securityProvider->ForceLockdown();
+			return engineActionResult;
+		}
 
 		std::this_thread::sleep_for(std::chrono::milliseconds(ENGINE_RPM));
 	}
@@ -49,6 +47,7 @@ int Engine::InitEngine()
 	securityProvider = new Helpers::SecurityProvider(ENGINE_DETECTION_FAILURE_THRESHOLD
 		, ENGINE_RECOGNITION_FAILURE_THRESHOLD
 		, ENGINE_RECOGNITION_INTERVAL
+		, this
 	);
 
 	bool capturerRunning = false;
@@ -69,7 +68,7 @@ int Engine::InitEngine()
 
 	if (!recognizerRunning) {
 		return ERROR_RECOGNIZER_FAILED_INIT;
-	}	
+	}
 
 	return ECODE_SUCCESS;
 }
@@ -87,6 +86,7 @@ int Engine::DetectFace()
 
 	if (faces.size() > 0) {
 		detectionSuccess = true;
+		ShowUI(frame, faces);
 	}
 
 	if (detectionSuccess) {
@@ -132,6 +132,18 @@ int Engine::RecognizeFace()
 	return ECODE_SUCCESS;
 }
 
+void Engine::SecurityStateChanged(Helpers::SecurityAction action)
+{
+	if (action == Helpers::RECOGNIZE)
+		SetAction(&Engine::RecognizeFace);
+	else
+		SetAction(&Engine::DetectFace);
+}
+
+void Engine::SetAction(engine_fptr nextStep)
+{
+	this->engineAction = nextStep;
+}
 
 void Engine::DrawFaceFrames(Mat& frame, std::vector<Rect>& detectedFaces)
 {
@@ -146,7 +158,6 @@ void Engine::DrawFaceFrames(Mat& frame, std::vector<Rect>& detectedFaces)
 		rectangle(frame, pt1, pt2, 8);
 	}
 }
-
 
 void Engine::ShowUI(Mat& frame, std::vector<Rect>& faces)
 {

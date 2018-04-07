@@ -4,13 +4,11 @@
 #include <opencv2\core.hpp>
 #include <opencv2\videoio.hpp>
 
-#include "..\Helpers\Timer\Timer.h"
-
 using namespace cv;
 
 namespace Processing
 {
-	class Capturer : public Helpers::Timer
+	class Capturer
 	{
 		public:
 			int InitCapture(int deviceIndex = DEFAULT_CAPTURE_DEVICE_INDEX);
