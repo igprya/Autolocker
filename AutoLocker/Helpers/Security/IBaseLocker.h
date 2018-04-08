@@ -2,7 +2,7 @@
 
 namespace Helpers 
 {
-	class BaseLocker
+	class IBaseLocker
 	{
 		public:
 			virtual int Lock() = 0;

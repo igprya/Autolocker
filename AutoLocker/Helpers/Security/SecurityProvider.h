@@ -2,7 +2,7 @@
 #include <ctime>
 
 #include "ISecurable.h"
-#include "BaseLocker.h"
+#include "IBaseLocker.h"
 #include "WinLocker.h"
 
 namespace Helpers
@@ -41,7 +41,7 @@ namespace Helpers
 			int recognitionFailureCount = 0;
 
 			SecurityState securityState = SecurityState::UNSECURED;
-			BaseLocker* lockdownProvider = nullptr;
+			IBaseLocker* lockdownProvider = nullptr;
 			ISecurable* securedObject = nullptr;
 	};
 }

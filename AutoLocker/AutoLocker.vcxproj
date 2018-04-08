@@ -165,7 +165,7 @@
     <ClInclude Include="Helpers\Globals.h" />
     <ClInclude Include="Helpers\ExitCodes.h" />
     <ClInclude Include="Helpers\FaceCapturer\FaceCapturer.h" />
-    <ClInclude Include="Helpers\Security\BaseLocker.h" />
+    <ClInclude Include="Helpers\Security\IBaseLocker.h" />
     <ClInclude Include="Helpers\Security\ISecurable.h" />
     <ClInclude Include="Helpers\Security\WinLocker.h" />
     <ClInclude Include="Processors\Capturer.h" />

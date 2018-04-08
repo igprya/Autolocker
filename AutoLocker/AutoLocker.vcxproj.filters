@@ -69,11 +69,11 @@
     <ClInclude Include="Helpers\Security\SecurityProvider.h">
       <Filter>Helpers\Security</Filter>
     </ClInclude>
-    <ClInclude Include="Helpers\Security\BaseLocker.h">
-      <Filter>Helpers\Security</Filter>
-    </ClInclude>
     <ClInclude Include="Helpers\Security\ISecurable.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Helpers\Security\IBaseLocker.h">
+      <Filter>Helpers\Security</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
