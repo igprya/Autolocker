@@ -31,7 +31,7 @@
     <Filter Include="Processors\Recognizer">
       <UniqueIdentifier>{f2cd183f-7728-4fc9-a6df-410fb9c37402}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Helpers\Security">
+    <Filter Include="Security">
       <UniqueIdentifier>{c816b2db-3326-4e30-80a2-349d6e68de86}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -63,17 +63,23 @@
     <ClInclude Include="Helpers\Globals.h">
       <Filter>Helpers</Filter>
     </ClInclude>
-    <ClInclude Include="Helpers\Security\WinLocker.h">
-      <Filter>Helpers\Security</Filter>
+    <ClInclude Include="Security\IBaseLocker.h">
+      <Filter>Security</Filter>
     </ClInclude>
-    <ClInclude Include="Helpers\Security\SecurityProvider.h">
-      <Filter>Helpers\Security</Filter>
+    <ClInclude Include="Security\SecurityProvider.h">
+      <Filter>Security</Filter>
     </ClInclude>
-    <ClInclude Include="Helpers\Security\ISecurable.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Security\WinLocker.h">
+      <Filter>Security</Filter>
     </ClInclude>
-    <ClInclude Include="Helpers\Security\IBaseLocker.h">
-      <Filter>Helpers\Security</Filter>
+    <ClInclude Include="Helpers\ConLogger.h">
+      <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="Helpers\ILogger.h">
+      <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="Security\ISecurable.h">
+      <Filter>Security</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -98,11 +104,14 @@
     <ClCompile Include="Processors\Recognizer.cpp">
       <Filter>Processors\Recognizer</Filter>
     </ClCompile>
-    <ClCompile Include="Helpers\Security\WinLocker.cpp">
-      <Filter>Helpers\Security</Filter>
+    <ClCompile Include="Security\SecurityProvider.cpp">
+      <Filter>Security</Filter>
     </ClCompile>
-    <ClCompile Include="Helpers\Security\SecurityProvider.cpp">
-      <Filter>Helpers\Security</Filter>
+    <ClCompile Include="Security\WinLocker.cpp">
+      <Filter>Security</Filter>
+    </ClCompile>
+    <ClCompile Include="Helpers\ConLogger.cpp">
+      <Filter>Helpers</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

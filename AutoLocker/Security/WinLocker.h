@@ -6,7 +6,7 @@
 #include <vector>
 #include <thread>
 
-namespace Helpers 
+namespace Security 
 {
 	class WinLocker : public IBaseLocker
 	{

@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Helpers 
+namespace Security
 {
 	class IBaseLocker
 	{

@@ -161,26 +161,29 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Helpers\ConLogger.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="Helpers\Globals.h" />
     <ClInclude Include="Helpers\ExitCodes.h" />
     <ClInclude Include="Helpers\FaceCapturer\FaceCapturer.h" />
-    <ClInclude Include="Helpers\Security\IBaseLocker.h" />
-    <ClInclude Include="Helpers\Security\ISecurable.h" />
-    <ClInclude Include="Helpers\Security\WinLocker.h" />
+    <ClInclude Include="Security\IBaseLocker.h" />
+    <ClInclude Include="Security\ISecurable.h" />
+    <ClInclude Include="Helpers\ILogger.h" />
+    <ClInclude Include="Security\WinLocker.h" />
     <ClInclude Include="Processors\Capturer.h" />
     <ClInclude Include="Processors\Detector.h" />
     <ClInclude Include="Processors\Recognizer.h" />
-    <ClInclude Include="Helpers\Security\SecurityProvider.h" />
+    <ClInclude Include="Security\SecurityProvider.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AutoLocker.cpp" />
+    <ClCompile Include="Helpers\ConLogger.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Helpers\FaceCapturer\FaceCapturer.cpp" />
-    <ClCompile Include="Helpers\Security\SecurityProvider.cpp" />
-    <ClCompile Include="Helpers\Security\WinLocker.cpp" />
+    <ClCompile Include="Security\SecurityProvider.cpp" />
+    <ClCompile Include="Security\WinLocker.cpp" />
     <ClCompile Include="Processors\Capturer.cpp" />
     <ClCompile Include="Processors\Detector.cpp" />
     <ClCompile Include="Processors\Recognizer.cpp" />

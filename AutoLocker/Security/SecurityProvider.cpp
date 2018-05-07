@@ -1,16 +1,22 @@
 #include "stdafx.h"
 #include "SecurityProvider.h"
 
-namespace Helpers
+namespace Security
 {
-	SecurityProvider::SecurityProvider(int detectionThreshold, int recognitionThreshold, int recognitionInterval, ISecurable* securable)
+	SecurityProvider::SecurityProvider(int detectionThreshold
+		, int recognitionThreshold
+		, int recognitionInterval
+		, ISecurable* securable
+		, IBaseLocker* lockProvider
+		, Helpers::ILogger* logProvider)
 	{
 		this->detectionFailureThreshold = detectionThreshold;
 		this->recognitionFailureCount = recognitionFailureThreshold;
 		this->recognitionInterval = recognitionInterval;
-		this->lockdownProvider = new WinLocker();	
+		this->lockdownProvider = lockProvider;	
 		this->securedObject = securable;
 		this->lastRecognitionTime = std::time(nullptr);
+		this->securityLogger = logProvider;
 
 		SetSecurityState(SecurityState::SECURE);
 	}
@@ -61,18 +67,22 @@ namespace Helpers
 		}
 	}
 
-	void SecurityProvider::HandleRecognitionFailure()
+	void SecurityProvider::HandleAuthorizaitonFailure()
 	{
 		IncCount(recognitionFailureCount);
 
 		if (recognitionFailureCount > recognitionFailureThreshold) {
-			SetLockdown();
+			
+			if (securityState != SecurityState::LOCKDOWN) {
+				SetLockdown();
+			}
+
 			SetSecurityState(SecurityState::LOCKDOWN);
 			DropCounter(recognitionFailureCount);
 		}
 	}
 
-	void SecurityProvider::HandleRecognitionSuccess()
+	void SecurityProvider::HandleAuthorizationSuccess()
 	{
 		DropCounter(recognitionFailureCount);
 
@@ -82,6 +92,14 @@ namespace Helpers
 
 		lastRecognitionTime = std::time(nullptr);
 		SetSecurityState(SecurityState::SECURE);
+	}
+
+	void SecurityProvider::HandleMultilpleFaces(int faceCount)
+	{
+		std::stringstream ss;
+		ss << "Multile faces (" << faceCount << ") detected";
+
+		securityLogger->Log(ss.str());
 	}
 
 	void SecurityProvider::ForceLockdown()
@@ -104,11 +122,13 @@ namespace Helpers
 	void SecurityProvider::SetLockdown()
 	{
 		lockdownProvider->Lock();
+		securityLogger->Log("Locked down");
 	}
 
 	void SecurityProvider::ReleaseLockdown()
 	{
 		lockdownProvider->Unlock();
+		securityLogger->Log("Lockdown released");
 	}
 
 	inline double SecurityProvider::GetRecognitionTimeGap()

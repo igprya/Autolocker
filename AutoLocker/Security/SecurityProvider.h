@@ -1,11 +1,13 @@
 #pragma once
 #include <ctime>
+#include <sstream>
 
 #include "ISecurable.h"
 #include "IBaseLocker.h"
-#include "WinLocker.h"
 
-namespace Helpers
+#include "..\Helpers\ILogger.h"
+
+namespace Security
 {
 	class SecurityProvider
 	{
@@ -13,13 +15,16 @@ namespace Helpers
 			SecurityProvider(int detectionThreshold
 				, int recognitionThreshold
 				, int recognitionInterval
-				, ISecurable* securable);
+				, ISecurable* securable
+				, IBaseLocker* lockProvider
+				, Helpers::ILogger* logProvider);
 			~SecurityProvider();
 			bool TryAuthorize(int& label, double& distance);
 			void HandleDetectionFailure();
 			void HandleDetectionSuccess();
-			void HandleRecognitionFailure();
-			void HandleRecognitionSuccess();
+			void HandleAuthorizaitonFailure();
+			void HandleAuthorizationSuccess();
+			void HandleMultilpleFaces(int faceCount);
 			void ForceLockdown();
 
 		protected:			
@@ -43,5 +48,6 @@ namespace Helpers
 			SecurityState securityState = SecurityState::UNSECURED;
 			IBaseLocker* lockdownProvider = nullptr;
 			ISecurable* securedObject = nullptr;
+			Helpers::ILogger* securityLogger = nullptr;
 	};
 }

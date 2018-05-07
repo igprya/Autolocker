@@ -3,11 +3,13 @@
 
 using namespace cv;
 
-Engine::Engine()
+Engine::Engine(bool useDebug)
 {
 	capturer = new Processing::Capturer();
 	detector = new Processing::Detector();
 	recognizer = new Processing::Recognizer();
+
+	this->debugMode = useDebug;
 }
 
 Engine::~Engine()
@@ -27,9 +29,9 @@ int Engine::Start()
 		return engInitResult;
 	}
 
-	while (engineAction != nullptr)	
+	while (nextEngineAction != nullptr)	
 	{
-		engineActionResult = (this->*engineAction)();
+		engineActionResult = (this->*nextEngineAction)();
 
 		if (engineActionResult < ECODE_SUCCESS)	{
 			securityProvider->ForceLockdown();
@@ -44,10 +46,12 @@ int Engine::Start()
 
 int Engine::InitEngine()
 {
-	securityProvider = new Helpers::SecurityProvider(ENGINE_DETECTION_FAILURE_THRESHOLD
+	securityProvider = new Security::SecurityProvider(ENGINE_DETECTION_FAILURE_THRESHOLD
 		, ENGINE_RECOGNITION_FAILURE_THRESHOLD
 		, ENGINE_RECOGNITION_INTERVAL
 		, this
+		, new Security::WinLocker()
+		, new Helpers::ConLogger()
 	);
 
 	bool capturerRunning = false;
@@ -75,6 +79,7 @@ int Engine::InitEngine()
 
 int Engine::DetectFace()
 {
+	int faceCount = 0;
 	bool detectionSuccess = false;
 	Mat frame = capturer->GetFrame();
 
@@ -86,11 +91,19 @@ int Engine::DetectFace()
 
 	if (faces.size() > 0) {
 		detectionSuccess = true;
-		ShowUI(frame, faces);
+		faceCount = faces.size();
+
+		if (debugMode) {
+			ShowUI(frame, faces);
+		}
 	}
 
 	if (detectionSuccess) {
 		securityProvider->HandleDetectionSuccess();
+
+		if (faceCount > 1) {
+			securityProvider->HandleMultilpleFaces(faceCount);
+		}
 	}
 	else {
 		securityProvider->HandleDetectionFailure();
@@ -101,7 +114,7 @@ int Engine::DetectFace()
 
 int Engine::RecognizeFace()
 {
-	bool recognitionSuccess = false;
+	bool authorizationSuccess = false;
 	Mat frame = capturer->GetFrame();
 
 	if (frame.empty()) {
@@ -117,33 +130,33 @@ int Engine::RecognizeFace()
 		for (int i = 0; i < faceMats.size(); i++) 
 		{
 			recognizer->RecognizeFace(faceMats[i], label, confidence);
-			recognitionSuccess = securityProvider->TryAuthorize(label, confidence);
+			authorizationSuccess = securityProvider->TryAuthorize(label, confidence);
 		}
 	}
 
-	if (recognitionSuccess) {
-		securityProvider->HandleRecognitionSuccess();
+	if (authorizationSuccess) {
+		securityProvider->HandleAuthorizationSuccess();
 	}
 	else {
-		securityProvider->HandleRecognitionFailure();
+		securityProvider->HandleAuthorizaitonFailure();
 	}
 
 	return ECODE_SUCCESS;
 }
 
-void Engine::SecurityStateChanged(Helpers::SecurityAction action)
+void Engine::SecurityStateChanged(Security::SecurityAction action)
 {
-	if (action == Helpers::RECOGNIZE) {
-		SetAction(&Engine::RecognizeFace);
-	}
-	else {
-		SetAction(&Engine::DetectFace);
+	switch (action)
+	{
+		case Security::SecurityAction::RECOGNIZE: SetNextAction(&Engine::RecognizeFace); break;
+		case Security::SecurityAction::DETECT: SetNextAction(&Engine::DetectFace); break;
+		default: SetNextAction(&Engine::DetectFace); break;
 	}
 }
 
-void Engine::SetAction(engine_fptr nextAction)
+void Engine::SetNextAction(engine_fptr nextAction)
 {
-	this->engineAction = nextAction;
+	this->nextEngineAction = nextAction;
 }
 
 void Engine::DrawFaceFrames(Mat& frame, std::vector<Rect>& detectedFaces)

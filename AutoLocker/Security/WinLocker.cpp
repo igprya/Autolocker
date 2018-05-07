@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "WinLocker.h"
 
-namespace Helpers 
+namespace Security
 {
 	LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
@@ -10,15 +10,8 @@ namespace Helpers
 		if (isLocked) {
 			return ECODE_SUCCESS;
 		}
-
-		//SendMessage(HWND_BROADCAST, WM_SYSCOMMAND, SC_MONITORPOWER, 1);
-
-		printf("Locked\n");
-
-		SecureSceens();
-
 		isLocked = true;
-
+		SecureSceens();
 		return ECODE_SUCCESS;
 	}
 
@@ -27,13 +20,7 @@ namespace Helpers
 		if (!isLocked) {
 			return ECODE_SUCCESS;
 		}
-
-		//SendMessage(HWND_BROADCAST, WM_SYSCOMMAND, SC_MONITORPOWER, -1);
-
-		printf("Unlocked\n");
-
-		isLocked = false;
-
+		isLocked = false;;
 		return ECODE_SUCCESS;
 	}
 
@@ -60,40 +47,48 @@ namespace Helpers
 
 		RegisterClass(&wc);
 
-		// Create the window.
+		// Create the window
+		int vs_left =		GetSystemMetrics(SM_XVIRTUALSCREEN);
+		int vs_top =		GetSystemMetrics(SM_YVIRTUALSCREEN);
+		int vs_width =		GetSystemMetrics(SM_CXVIRTUALSCREEN);
+		int vs_height =		GetSystemMetrics(SM_CYVIRTUALSCREEN);
 
 		HWND hwnd = CreateWindowEx(
 			0,                              // Optional window styles.
 			CLASS_NAME,                     // Window class
 			L"Secure window",				// Window text
-			WS_OVERLAPPEDWINDOW,            // Window style
-
-											// Size and position
-			CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
-
-			NULL,       // Parent window    
-			NULL,       // Menu
-			GetModuleHandle(nullptr),  // Instance handle
-			NULL        // Additional application data
+			WS_POPUP,						// Window style											
+			vs_left, vs_top, vs_width, vs_height, // Size and position
+			NULL,							// Parent window    
+			NULL,							// Menu
+			GetModuleHandle(nullptr),		// Instance handle
+			NULL							// Additional application data
 		);
-
+		
 		if (hwnd == NULL)
 		{
 			return 0;
 		}
 
 		ShowWindow(hwnd, SW_SHOW);
+		SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 
 		// Run the message loop.
-
 		MSG msg = {};
 		while (GetMessage(&msg, NULL, 0, 0))
 		{
-			if (!isLocked)
-				PostQuitMessage(0);
-
-			TranslateMessage(&msg);
-			DispatchMessage(&msg);
+			if (isLocked) {
+				TranslateMessage(&msg);
+				DispatchMessage(&msg);
+			}
+			else
+			{
+				SendMessage(hwnd, WM_DESTROY, 0, 0);
+				GetMessage(&msg, NULL, 0, 0);
+				TranslateMessage(&msg);
+				DispatchMessage(&msg);
+				break;
+			}
 		}
 
 		return 0;
@@ -103,20 +98,20 @@ namespace Helpers
 	{
 		switch (uMsg)
 		{
-		case WM_DESTROY:
-			PostQuitMessage(0);
+			case WM_DESTROY:
+				PostQuitMessage(0);
+				return 0;
+
+			case WM_PAINT:
+			{
+				PAINTSTRUCT ps;
+				HDC hdc = BeginPaint(hwnd, &ps);
+
+				FillRect(hdc, &ps.rcPaint, (HBRUSH)(COLOR_WINDOW + 1));
+
+				EndPaint(hwnd, &ps);
+			}
 			return 0;
-
-		case WM_PAINT:
-		{
-			PAINTSTRUCT ps;
-			HDC hdc = BeginPaint(hwnd, &ps);
-
-			FillRect(hdc, &ps.rcPaint, (HBRUSH)(COLOR_WINDOW + 1));
-
-			EndPaint(hwnd, &ps);
-		}
-		return 0;
 
 		}
 		return DefWindowProc(hwnd, uMsg, wParam, lParam);

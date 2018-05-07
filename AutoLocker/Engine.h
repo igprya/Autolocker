@@ -9,8 +9,12 @@
 #include <opencv2\imgproc.hpp>
 #include <opencv2\imgcodecs.hpp>
 
-#include "Helpers\Security\ISecurable.h"
-#include "Helpers\Security\SecurityProvider.h"
+#include "Helpers\ILogger.h"
+#include "Helpers\ConLogger.h"
+#include "Security\IBaseLocker.h"
+#include "Security\WinLocker.h"
+#include "Security\ISecurable.h"
+#include "Security\SecurityProvider.h"
 #include "Processors\Capturer.h"
 #include "Processors\Detector.h"
 #include "Processors\Recognizer.h"
@@ -20,10 +24,10 @@ using namespace cv;
 class Engine;
 typedef int(Engine::*engine_fptr)();
 
-class Engine : public Helpers::ISecurable
+class Engine : public Security::ISecurable
 {
 	public:
-		Engine();
+		Engine(bool useDebug = false);
 		~Engine();
 		int Start();
 
@@ -32,16 +36,17 @@ class Engine : public Helpers::ISecurable
 		int DetectFace();
 		int RecognizeFace();
 
-		void SecurityStateChanged(Helpers::SecurityAction action);
-		void SetAction(engine_fptr action);
+		void SecurityStateChanged(Security::SecurityAction action);
+		void SetNextAction(engine_fptr action);
 
 		void ShowUI(Mat& frame, std::vector<Rect>& faces);
 		void DrawFaceFrames(Mat& frame, std::vector<Rect>& detectedFaces);
 		
-		engine_fptr engineAction = nullptr;
-		Helpers::SecurityProvider* securityProvider = nullptr;
+		engine_fptr nextEngineAction = nullptr;
+		Security::SecurityProvider* securityProvider = nullptr;
 		Processing::Capturer* capturer = nullptr;
 		Processing::Detector* detector = nullptr;
 		Processing::Recognizer* recognizer = nullptr;
+		bool debugMode = false;
 };
 
