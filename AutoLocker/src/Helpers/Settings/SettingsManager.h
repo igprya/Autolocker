@@ -16,7 +16,7 @@ namespace Helpers
 			void ReadSettings();
 			void WriteSettings();
 			Settings GetSettings();
-			void ResolveCommand(std::vector<std::string> parsedCommand);
+			int ResolveCommand(std::vector<std::string> parsedCommand);
 
 		private:
 			void SetParameter(std::vector<std::string> command);

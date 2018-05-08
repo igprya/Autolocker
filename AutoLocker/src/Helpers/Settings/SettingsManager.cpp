@@ -22,7 +22,7 @@ namespace Helpers
 					case 5: settings.SetDefaultCaptureDeviceIndex(atoi(line.c_str())); break;
 					case 6: settings.SetFeedWindow(atoi(line.c_str())); break;
 					case 7: settings.SetCascadeTemplateFilePath(line); break;
-					case 8: settings.SetAuthorizedFacesFolder(line); break;
+					case 8: settings.SetAuthorizedFacesPath(line); break;
 					default: break;
 				}
 
@@ -52,7 +52,7 @@ namespace Helpers
 			settingsFile << settings.DefaultCaptureDeviceIndex() << std::endl;
 			settingsFile << settings.FeedWindow() << std::endl;
 			settingsFile << settings.CascadeTemplateFilePath() << std::endl;
-			settingsFile << settings.AuthorizedFacesFolder() << std::endl;
+			settingsFile << settings.AuthorizedFacesPath() << std::endl;
 
 			settingsFile.close();
 		}
@@ -72,13 +72,14 @@ namespace Helpers
 	}
 
 
-	void SettingsManager::ResolveCommand(std::vector<std::string> parsedCommand)
+	int SettingsManager::ResolveCommand(std::vector<std::string> parsedCommand)
 	{
 		std::vector<std::string> arguments;
 		std::string command;
 
 		if (parsedCommand.empty()) {
-			return;
+			std::cout << "No command. Type 'sm help' to see the list of available commands" << std::endl;
+			return ECODE_NONE;
 		}
 
 		command = parsedCommand[0];
@@ -102,6 +103,11 @@ namespace Helpers
 		else if (command == readCommand) {
 			ReadSettings();
 		}
+		else {
+			std::cout << "Invalid command " << command << std::endl;
+		}
+
+		return ECODE_NONE;
 	}
 
 
@@ -150,7 +156,10 @@ namespace Helpers
 			settings.SetCascadeTemplateFilePath(parameterValue);
 		}
 		else if (parameterName == authorizedFacePathParameter) {
-			settings.SetAuthorizedFacesFolder(parameterValue);
+			settings.SetAuthorizedFacesPath(parameterValue);
+		}
+		else {
+			std::cout << "Invalid parameter " << parameterName << std::endl;
 		}
 	}
 
@@ -188,7 +197,10 @@ namespace Helpers
 			std::cout << settings.CascadeTemplateFilePath() << std::endl;
 		}
 		else if (parameterName == authorizedFacePathParameter) {
-			std::cout << settings.AuthorizedFacesFolder() << std::endl;
+			std::cout << settings.AuthorizedFacesPath() << std::endl;
+		}
+		else {
+			std::cout << "Invalid parameter " << parameterName << std::endl;
 		}
 	}
 

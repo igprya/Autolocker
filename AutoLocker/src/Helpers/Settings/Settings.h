@@ -15,7 +15,7 @@ namespace Helpers
 			int DefaultCaptureDeviceIndex() { return defaultCaptureDevideIndex; };
 			bool FeedWindow() { return feedWindow; };
 			std::string CascadeTemplateFilePath() { return cascadeTemplateFilePath; };
-			std::string AuthorizedFacesFolder() { return authorizedFacesFolder; };
+			std::string AuthorizedFacesPath() { return authorizedFacesPath; };
 
 			void SetEngineRpm(int value) { engineRpm = value; };
 			void SetDetectionFailureThreshold(int value) { detectionFailureThreshold = value; };
@@ -25,7 +25,7 @@ namespace Helpers
 			void SetDefaultCaptureDeviceIndex(int value) { defaultCaptureDevideIndex = value; };
 			void SetFeedWindow(bool value) { feedWindow = value; };
 			void SetCascadeTemplateFilePath(std::string path) { cascadeTemplateFilePath = path; };
-			void SetAuthorizedFacesFolder(std::string path) { authorizedFacesFolder = path; };
+			void SetAuthorizedFacesPath(std::string path) { authorizedFacesPath = path; };
 
 		private:
 			int engineRpm = 50;
@@ -36,6 +36,6 @@ namespace Helpers
 			int defaultCaptureDevideIndex = 0;
 			bool feedWindow = false;
 			std::string cascadeTemplateFilePath = "patterns/haarcascade_frontalface_alt.xml";
-			std::string authorizedFacesFolder = "authorized_faces/";		
+			std::string authorizedFacesPath = "authorized_faces/";		
 	};
 }

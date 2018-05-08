@@ -21,7 +21,7 @@ namespace Helpers
 	{
 		int capturerResult = capturer->InitCapture(settings.DefaultCaptureDeviceIndex());
 		int detectorResult = detector->InitDetection(settings.CascadeTemplateFilePath());
-		authorizedFacesFolder = settings.AuthorizedFacesFolder();
+		authorizedFacesFolder = settings.AuthorizedFacesPath();
 
 		return ECODE_SUCCESS;
 	}

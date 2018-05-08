@@ -2,6 +2,7 @@
 
 const static int ECODE_SUCCESS = 1;
 const static int ECODE_FAILURE = 0;
+const static int ECODE_NONE = -1;
 
 const static int ERROR_ENGINE_FAILED_INIT = -10;
 const static int ERROR_CAPTURER_FAILED_INIT = -20;

@@ -61,7 +61,7 @@ int Engine::InitEngine(Helpers::Settings settings)
 
 	capturerRunning = this->capturer->InitCapture(settings.DefaultCaptureDeviceIndex());
 	detectorRunning = this->detector->InitDetection(settings.CascadeTemplateFilePath());
-	recognizerRunning = this->recognizer->InitRecognition(settings.AuthorizedFacesFolder());	
+	recognizerRunning = this->recognizer->InitRecognition(settings.AuthorizedFacesPath());	
 
 	if (!capturerRunning) {
 		return ERROR_CAPTURER_FAILED_INIT;
