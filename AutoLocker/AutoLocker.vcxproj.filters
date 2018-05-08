@@ -36,82 +36,94 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stdafx.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="targetver.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Helpers\FaceCapturer\FaceCapturer.h">
+    <ClInclude Include="src\Helpers\FaceCapturer\FaceCapturer.h">
       <Filter>Helpers\FaceCapturer</Filter>
     </ClInclude>
-    <ClInclude Include="Processors\Capturer.h">
+    <ClInclude Include="src\Helpers\ExitCodes.h">
+      <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Processors\Capturer.h">
       <Filter>Processors\Capturer</Filter>
     </ClInclude>
-    <ClInclude Include="Processors\Detector.h">
+    <ClInclude Include="src\Processors\Detector.h">
       <Filter>Processors\Detector</Filter>
     </ClInclude>
-    <ClInclude Include="Processors\Recognizer.h">
+    <ClInclude Include="src\Processors\Recognizer.h">
       <Filter>Processors\Recognizer</Filter>
     </ClInclude>
-    <ClInclude Include="Helpers\ExitCodes.h">
-      <Filter>Helpers</Filter>
-    </ClInclude>
-    <ClInclude Include="Helpers\Globals.h">
-      <Filter>Helpers</Filter>
-    </ClInclude>
-    <ClInclude Include="Security\IBaseLocker.h">
+    <ClInclude Include="src\Security\ISecurable.h">
       <Filter>Security</Filter>
     </ClInclude>
-    <ClInclude Include="Security\SecurityProvider.h">
+    <ClInclude Include="src\Security\SecurityProvider.h">
       <Filter>Security</Filter>
     </ClInclude>
-    <ClInclude Include="Security\WinLocker.h">
-      <Filter>Security</Filter>
+    <ClInclude Include="src\Engine.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Helpers\ConLogger.h">
+    <ClInclude Include="src\stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\targetver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helpers\Loggers\ILogger.h">
       <Filter>Helpers</Filter>
     </ClInclude>
-    <ClInclude Include="Helpers\ILogger.h">
+    <ClInclude Include="src\Helpers\Loggers\ConLogger.h">
       <Filter>Helpers</Filter>
     </ClInclude>
-    <ClInclude Include="Security\ISecurable.h">
+    <ClInclude Include="src\Security\Lockers\IBaseLocker.h">
       <Filter>Security</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Security\Lockers\WinLocker.h">
+      <Filter>Security</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helpers\Settings\Settings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helpers\Settings\SettingsManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helpers\Utils.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="stdafx.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="AutoLocker.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Helpers\FaceCapturer\FaceCapturer.cpp">
+    <ClCompile Include="src\Helpers\FaceCapturer\FaceCapturer.cpp">
       <Filter>Helpers\FaceCapturer</Filter>
     </ClCompile>
-    <ClCompile Include="Processors\Capturer.cpp">
+    <ClCompile Include="src\Processors\Capturer.cpp">
       <Filter>Processors\Capturer</Filter>
     </ClCompile>
-    <ClCompile Include="Processors\Detector.cpp">
+    <ClCompile Include="src\Processors\Detector.cpp">
       <Filter>Processors\Detector</Filter>
     </ClCompile>
-    <ClCompile Include="Processors\Recognizer.cpp">
+    <ClCompile Include="src\Processors\Recognizer.cpp">
       <Filter>Processors\Recognizer</Filter>
     </ClCompile>
-    <ClCompile Include="Security\SecurityProvider.cpp">
+    <ClCompile Include="src\Security\SecurityProvider.cpp">
       <Filter>Security</Filter>
     </ClCompile>
-    <ClCompile Include="Security\WinLocker.cpp">
-      <Filter>Security</Filter>
+    <ClCompile Include="src\AutoLocker.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Helpers\ConLogger.cpp">
+    <ClCompile Include="src\Engine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Helpers\Loggers\ConLogger.cpp">
       <Filter>Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Security\Lockers\WinLocker.cpp">
+      <Filter>Security</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Helpers\Settings\SettingsManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Helpers\Utils.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

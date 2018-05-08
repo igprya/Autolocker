@@ -6,6 +6,7 @@ namespace Security
 	SecurityProvider::SecurityProvider(int detectionThreshold
 		, int recognitionThreshold
 		, int recognitionInterval
+		, int confidenceThreshold
 		, ISecurable* securable
 		, IBaseLocker* lockProvider
 		, Helpers::ILogger* logProvider)
@@ -13,6 +14,7 @@ namespace Security
 		this->detectionFailureThreshold = detectionThreshold;
 		this->recognitionFailureCount = recognitionFailureThreshold;
 		this->recognitionInterval = recognitionInterval;
+		this->confidenceThreshold = confidenceThreshold;
 		this->lockdownProvider = lockProvider;	
 		this->securedObject = securable;
 		this->lastRecognitionTime = std::time(nullptr);

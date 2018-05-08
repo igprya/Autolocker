@@ -7,6 +7,7 @@
 #include <opencv2\imgcodecs.hpp>
 #include <opencv2\highgui.hpp>
 
+#include "..\Settings\Settings.h"
 #include "..\..\Processors\Capturer.h"
 #include "..\..\Processors\Detector.h"
 
@@ -19,7 +20,7 @@ namespace Helpers
 		public:
 			FaceCapturer();
 			~FaceCapturer();
-			int InitFaceCaputrer();
+			int InitFaceCaputrer(Helpers::Settings settings);
 			int Learn();
 
 		private:
@@ -27,6 +28,7 @@ namespace Helpers
 
 			Capturer* capturer;
 			Detector* detector;
+			std::string authorizedFacesFolder;
 	};
 }
 

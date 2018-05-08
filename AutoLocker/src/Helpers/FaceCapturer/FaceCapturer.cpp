@@ -17,10 +17,11 @@ namespace Helpers
 		delete detector;
 	}
 
-	int FaceCapturer::InitFaceCaputrer()
+	int FaceCapturer::InitFaceCaputrer(Helpers::Settings settings)
 	{
-		int capturerResult = capturer->InitCapture(DEFAULT_CAPTURE_DEVICE_INDEX);
-		int detectorResult = detector->InitDetection(CASCADE_TEMPLATE_FILE_PATH);
+		int capturerResult = capturer->InitCapture(settings.DefaultCaptureDeviceIndex());
+		int detectorResult = detector->InitDetection(settings.CascadeTemplateFilePath());
+		authorizedFacesFolder = settings.AuthorizedFacesFolder();
 
 		return ECODE_SUCCESS;
 	}
@@ -77,7 +78,7 @@ namespace Helpers
 	{
 		std::string filePath;
 		std::stringstream ss;
-		ss << OWNER_FACES_FOLDER << time(nullptr) << ".bmp";
+		ss << authorizedFacesFolder << time(nullptr) << ".bmp";
 		filePath = ss.str();
 
 		imwrite(filePath, imageMat);

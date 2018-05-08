@@ -11,7 +11,7 @@ namespace Processing
 	class Capturer
 	{
 		public:
-			int InitCapture(int deviceIndex = DEFAULT_CAPTURE_DEVICE_INDEX);
+			int InitCapture(int deviceIndex = 0);
 			Mat GetFrame();
 
 		private:

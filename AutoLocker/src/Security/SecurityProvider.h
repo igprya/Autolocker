@@ -3,9 +3,9 @@
 #include <sstream>
 
 #include "ISecurable.h"
-#include "IBaseLocker.h"
+#include "Lockers\IBaseLocker.h"
 
-#include "..\Helpers\ILogger.h"
+#include "..\Helpers\Loggers\ILogger.h"
 
 namespace Security
 {
@@ -15,6 +15,7 @@ namespace Security
 			SecurityProvider(int detectionThreshold
 				, int recognitionThreshold
 				, int recognitionInterval
+				, int confidenceThreshold
 				, ISecurable* securable
 				, IBaseLocker* lockProvider
 				, Helpers::ILogger* logProvider);
@@ -40,6 +41,7 @@ namespace Security
 			int detectionFailureThreshold = 0;
 			int recognitionFailureThreshold = 0;
 			int recognitionInterval = 0;
+			int confidenceThreshold = 0;
 			time_t lastRecognitionTime = 0;
 
 			int detectionFailureCount = 0;

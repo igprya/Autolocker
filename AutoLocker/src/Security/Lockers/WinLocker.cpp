@@ -20,7 +20,7 @@ namespace Security
 		if (!isLocked) {
 			return ECODE_SUCCESS;
 		}
-		isLocked = false;;
+		isLocked = false;
 		return ECODE_SUCCESS;
 	}
 

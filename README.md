@@ -94,6 +94,12 @@ Long story long,
 3. Under *System variables* group, find an existing `PATH` variable and click 'Edit'. In appeared dialog, add a new path with exactly the following value: `%OPENCV_DIR%\bin`.
 4. Reboot your PC. After that you should be all set.
 
+## Required stuff to launch an executable
+1. AutoLocker.exe (duh)
+2. opencv_world341.dll
+3. 'patterns' folder with 'haarcascade_frontalface_alt.xml' file
+4. 'owner' folder to store images of the user
+
 ## Some topics I've found useful
 1. https://msdn.microsoft.com/en-us/library/ff381399(v=vs.85).aspx
 3. https://habrahabr.ru/post/182610/

@@ -164,38 +164,42 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Helpers\ConLogger.h" />
-    <ClInclude Include="Engine.h" />
-    <ClInclude Include="Helpers\Globals.h" />
-    <ClInclude Include="Helpers\ExitCodes.h" />
-    <ClInclude Include="Helpers\FaceCapturer\FaceCapturer.h" />
-    <ClInclude Include="Security\IBaseLocker.h" />
-    <ClInclude Include="Security\ISecurable.h" />
-    <ClInclude Include="Helpers\ILogger.h" />
-    <ClInclude Include="Security\WinLocker.h" />
-    <ClInclude Include="Processors\Capturer.h" />
-    <ClInclude Include="Processors\Detector.h" />
-    <ClInclude Include="Processors\Recognizer.h" />
-    <ClInclude Include="Security\SecurityProvider.h" />
-    <ClInclude Include="stdafx.h" />
-    <ClInclude Include="targetver.h" />
+    <ClInclude Include="src\Helpers\Settings\SettingsManager.h" />
+    <ClInclude Include="src\Helpers\Loggers\ConLogger.h" />
+    <ClInclude Include="src\Engine.h" />
+    <ClInclude Include="src\Helpers\ExitCodes.h" />
+    <ClInclude Include="src\Helpers\FaceCapturer\FaceCapturer.h" />
+    <ClInclude Include="src\Helpers\Settings\Settings.h" />
+    <ClInclude Include="src\Security\Lockers\IBaseLocker.h" />
+    <ClInclude Include="src\Security\ISecurable.h" />
+    <ClInclude Include="src\Helpers\Loggers\ILogger.h" />
+    <ClInclude Include="src\Security\Lockers\WinLocker.h" />
+    <ClInclude Include="src\Processors\Capturer.h" />
+    <ClInclude Include="src\Processors\Detector.h" />
+    <ClInclude Include="src\Processors\Recognizer.h" />
+    <ClInclude Include="src\Security\SecurityProvider.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\targetver.h" />
+    <ClInclude Include="src\Helpers\Utils.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AutoLocker.cpp" />
-    <ClCompile Include="Helpers\ConLogger.cpp" />
-    <ClCompile Include="Engine.cpp" />
-    <ClCompile Include="Helpers\FaceCapturer\FaceCapturer.cpp" />
-    <ClCompile Include="Security\SecurityProvider.cpp" />
-    <ClCompile Include="Security\WinLocker.cpp" />
-    <ClCompile Include="Processors\Capturer.cpp" />
-    <ClCompile Include="Processors\Detector.cpp" />
-    <ClCompile Include="Processors\Recognizer.cpp" />
-    <ClCompile Include="stdafx.cpp">
+    <ClCompile Include="src\Helpers\Settings\SettingsManager.cpp" />
+    <ClCompile Include="src\AutoLocker.cpp" />
+    <ClCompile Include="src\Helpers\Loggers\ConLogger.cpp" />
+    <ClCompile Include="src\Engine.cpp" />
+    <ClCompile Include="src\Helpers\FaceCapturer\FaceCapturer.cpp" />
+    <ClCompile Include="src\Security\SecurityProvider.cpp" />
+    <ClCompile Include="src\Security\Lockers\WinLocker.cpp" />
+    <ClCompile Include="src\Processors\Capturer.cpp" />
+    <ClCompile Include="src\Processors\Detector.cpp" />
+    <ClCompile Include="src\Processors\Recognizer.cpp" />
+    <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\Helpers\Utils.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
