@@ -6,4 +6,4 @@
 0
 0
 patterns/haarcascade_frontalface_alt.xml
-owner/
+authorized_faces/

@@ -36,6 +36,6 @@ namespace Helpers
 			int defaultCaptureDevideIndex = 0;
 			bool feedWindow = false;
 			std::string cascadeTemplateFilePath = "patterns/haarcascade_frontalface_alt.xml";
-			std::string authorizedFacesFolder = "owner/";		
+			std::string authorizedFacesFolder = "authorized_faces/";		
 	};
 }
