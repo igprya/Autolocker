@@ -11,6 +11,8 @@ namespace Processing
 
 	int Recognizer::InitRecognition(std::string facesDirectoryPath)
 	{	
+		bool referenceFaceAdded = false;
+
 		for (auto& p : std::experimental::filesystem::directory_iterator(facesDirectoryPath))
 		{
 			std::string path = p.path().string();
@@ -18,15 +20,21 @@ namespace Processing
 			images.push_back(imread(path, IMREAD_GRAYSCALE));
 
 
-			if (fileName[0] == 'a') {
+			if (fileName == "reference_face.jpg") {
 				labels.push_back(0);
+				referenceFaceAdded = true;
 			}
 			else {
 				labels.push_back(1);
 			}
 		}
 
-		if (labels.size() > 0 && images.size() > 0) {
+		if (!referenceFaceAdded) {
+			std::cout << "Error: cannot initalize recognition model. Make sure that 'reference_face.jpg' file is present in /authorized_faces folder" << std::endl;
+			return ECODE_FAILURE;
+		}
+
+		if (!labels.empty() && !images.empty()) {
 			TrainModel();			
 			return ECODE_SUCCESS;
 		}
