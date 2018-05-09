@@ -12,6 +12,7 @@ namespace Processing
 	int Recognizer::InitRecognition(std::string facesDirectoryPath)
 	{	
 		bool referenceFaceAdded = false;
+		bool userFaceAdded = false;
 
 		for (auto& p : std::experimental::filesystem::directory_iterator(facesDirectoryPath))
 		{
@@ -26,11 +27,17 @@ namespace Processing
 			}
 			else {
 				labels.push_back(1);
+				userFaceAdded = true;
 			}
 		}
 
 		if (!referenceFaceAdded) {
 			std::cout << "Error: cannot initalize recognition model. Make sure that 'reference_face.jpg' file is present in /authorized_faces folder" << std::endl;
+			return ECODE_FAILURE;
+		}
+
+		if (!userFaceAdded) {
+			std::cout << "Error: cannot initialize recognition model: no authorized faces present. Type 'learn' to register your face." << std::endl;
 			return ECODE_FAILURE;
 		}
 
