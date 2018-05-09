@@ -39,8 +39,7 @@ namespace Helpers
 		Mat firstFace;
 		std::vector<Mat> faces;
 
-		std::cout << "AutoLocker will now consequentally capture five images from the camera and consider them" << std::endl;
-		std::cout << "authorized to use the computer." << std::endl;
+		std::cout << "AutoLocker will now consequentally capture five images from the camera and consider them authorized to use the computer" << std::endl;
 
 		while (capturedImages < imageCount)
 		{

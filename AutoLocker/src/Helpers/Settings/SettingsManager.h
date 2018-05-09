@@ -13,15 +13,17 @@ namespace Helpers
 	class SettingsManager
 	{
 		public:
-			void ReadSettings();
-			void WriteSettings();
+			SettingsManager();
 			Settings GetSettings();
 			int ResolveCommand(std::vector<std::string> parsedCommand);
 
 		private:
-			void SetParameter(std::vector<std::string> command);
-			void PrintParameter(std::vector<std::string> command);
+			void ReadSettings();
+			void WriteSettings();
 			void PrintHelp();
+			void ListSettings();
+			int SetParameter(std::vector<std::string> command);
+			int PrintParameter(std::vector<std::string> command);
 
 			Settings settings;
 			bool settingsRead = false;
@@ -29,8 +31,7 @@ namespace Helpers
 			const std::string helpCommand = "help";
 			const std::string setCommand = "set";
 			const std::string getCommand = "get";
-			const std::string readCommand = "read";
-			const std::string writeCommand = "write";
+			const std::string listCommand = "list";
 			const std::string engineRpmParameter = "engine_rpm";
 			const std::string detectionFailureThresholdParameter = "detectionfailure_threshold";
 			const std::string recognitionFailureThresholdParameter = "recognitionfailure_threshold";

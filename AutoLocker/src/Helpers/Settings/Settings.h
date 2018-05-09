@@ -32,7 +32,7 @@ namespace Helpers
 			int detectionFailureThreshold = 10;
 			int recognitionFailureThreshold = 10;
 			int recognitionInterval = 10;
-			int confidenceThreshold = 0;			
+			int confidenceThreshold = 100;
 			int defaultCaptureDevideIndex = 0;
 			bool feedWindow = false;
 			std::string cascadeTemplateFilePath = "patterns/haarcascade_frontalface_alt.xml";

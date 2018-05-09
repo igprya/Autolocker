@@ -20,12 +20,17 @@ Engine::~Engine()
 
 int Engine::Start(Helpers::Settings settings)
 {
+	std::cout << "Initializing engine..." << std::endl;
+
 	int engInitResult = InitEngine(settings);
 	int engineActionResult = ECODE_SUCCESS;
 
-	if (engInitResult < ECODE_SUCCESS) {		
+	if (engInitResult < ECODE_SUCCESS) {	
+		std::cout << "Initalization failure!" << std::endl;
 		return engInitResult;
 	}
+
+	std::cout << "Initalization complete" << std::endl;
 
 	while (nextEngineAction != nullptr)	
 	{
@@ -184,6 +189,6 @@ void Engine::ShowUI(Mat& frame, std::vector<Rect>& faces)
 
 	DrawFaceFrames(frame, faces);
 	putText(frame, ss.str(), Point(10, 50), HersheyFonts::FONT_HERSHEY_PLAIN, 2, Scalar::all(255), 2);
-	imshow("dbg-enginecycle", frame);
+	imshow("Camera feed", frame);
 	waitKey(5);
 }

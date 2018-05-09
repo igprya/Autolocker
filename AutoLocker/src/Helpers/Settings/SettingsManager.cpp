@@ -3,6 +3,12 @@
 
 namespace Helpers
 {
+	SettingsManager::SettingsManager()
+	{
+		ReadSettings();
+	}
+
+
 	void SettingsManager::ReadSettings()
 	{
 		std::ifstream settingsFile(".settings");
@@ -74,6 +80,7 @@ namespace Helpers
 
 	int SettingsManager::ResolveCommand(std::vector<std::string> parsedCommand)
 	{
+		int operationResult = ECODE_SUCCESS;
 		std::vector<std::string> arguments;
 		std::string command;
 
@@ -92,37 +99,35 @@ namespace Helpers
 			PrintHelp();
 		}
 		else if (command == setCommand) {
-			SetParameter(arguments);
+			operationResult = SetParameter(arguments);
 		} 
 		else if (command == getCommand) {
-			PrintParameter(arguments);
+			operationResult = PrintParameter(arguments);
 		}
-		else if (command == writeCommand) {
-			WriteSettings();
-		}
-		else if (command == readCommand) {
-			ReadSettings();
+		else if (command == listCommand) {
+			ListSettings();
 		}
 		else {
 			std::cout << "Invalid command " << command << std::endl;
-			return ECODE_FAILURE;
+			operationResult = ECODE_FAILURE;
 		}
 
-		return ECODE_SUCCESS;
+		return operationResult;
 	}
 
 
-	void SettingsManager::SetParameter(std::vector<std::string> command)
+	int SettingsManager::SetParameter(std::vector<std::string> command)
 	{
 		if (command.empty()) {
-			return;
+			return ECODE_FAILURE;
 		}
 
+		int operationResult = ECODE_SUCCESS;
 		std::string parameterName = command[0];
 		std::string parameterValue = command[1];
 
 		if (parameterValue.empty()) {
-			return;
+			return ECODE_FAILURE;
 		}
 
 		if (parameterName == engineRpmParameter) {
@@ -161,16 +166,26 @@ namespace Helpers
 		}
 		else {
 			std::cout << "Invalid parameter " << parameterName << std::endl;
+			operationResult = ECODE_FAILURE;
 		}
+
+		WriteSettings();
+		
+		return operationResult;
 	}
 
 
-	void SettingsManager::PrintParameter(std::vector<std::string> command)
+	int SettingsManager::PrintParameter(std::vector<std::string> command)
 	{
 		if (command.empty()) {
-			return;
+			return ECODE_FAILURE;
 		}
 
+		if (!settingsRead) {
+			ReadSettings();
+		}
+
+		int operationResult = ECODE_SUCCESS;
 		std::string parameterName = command[0];
 
 		if (parameterName == engineRpmParameter) {
@@ -202,7 +217,10 @@ namespace Helpers
 		}
 		else {
 			std::cout << "Invalid parameter " << parameterName << std::endl;
+			operationResult = ECODE_FAILURE;
 		}
+
+		return operationResult;
 	}
 
 
@@ -212,18 +230,31 @@ namespace Helpers
 		std::cout << helpCommand << std::endl;
 		std::cout << setCommand << std::endl;
 		std::cout << getCommand << std::endl;
-		std::cout << readCommand << std::endl;
-		std::cout << writeCommand << std::endl;
+		std::cout << listCommand << std::endl;
 		std::cout << std::endl;
-		std::cout << "set/get arguments:" << std::endl;
-		std::cout << engineRpmParameter << std::endl;
-		std::cout << detectionFailureThresholdParameter << std::endl;
-		std::cout << recognitionFailureThresholdParameter << std::endl;
-		std::cout << recognitionIntervalParameter << std::endl;
-		std::cout << confidenceThresholdParameter << std::endl;
-		std::cout << captureDeviceIndexParameter << std::endl;
-		std::cout << feedWindowParameter << std::endl;
-		std::cout << cascadeTemplatePathParameter << std::endl;
-		std::cout << authorizedFacePathParameter << std::endl;
+		std::cout << "set,get command arguments:" << std::endl;
+		std::cout << "[int]  " << engineRpmParameter << std::endl;
+		std::cout << "[int]  " << detectionFailureThresholdParameter << std::endl;
+		std::cout << "[int]  " << recognitionFailureThresholdParameter << std::endl;
+		std::cout << "[int]  " << recognitionIntervalParameter << std::endl;
+		std::cout << "[int]  " << confidenceThresholdParameter << std::endl;
+		std::cout << "[int]  " << captureDeviceIndexParameter << std::endl;
+		std::cout << "[bool] " << feedWindowParameter << std::endl;
+		std::cout << "[str]  " << cascadeTemplatePathParameter << std::endl;
+		std::cout << "[str]  " << authorizedFacePathParameter << std::endl;
+	}
+
+
+	void SettingsManager::ListSettings()
+	{
+		std::cout << engineRpmParameter << "\t\t\t"					<< settings.EngineRpm() << std::endl;
+		std::cout << detectionFailureThresholdParameter << "\t"		<< settings.DetectionFailureThreshold() << std::endl;
+		std::cout << recognitionFailureThresholdParameter << "\t"	<< settings.RecognitionFailureThreshold() << std::endl;
+		std::cout << recognitionIntervalParameter << "\t\t"			<< settings.RecognitionInterval() << std::endl;
+		std::cout << confidenceThresholdParameter << "\t\t"			<< settings.ConfidenceThreshold() << std::endl;
+		std::cout << captureDeviceIndexParameter << "\t\t"			<< settings.DefaultCaptureDeviceIndex() << std::endl;
+		std::cout << feedWindowParameter << "\t\t\t"				<< settings.FeedWindow() << std::endl;
+		std::cout << cascadeTemplatePathParameter << "\t\t"			<< settings.CascadeTemplateFilePath() << std::endl;
+		std::cout << authorizedFacePathParameter << "\t\t"			<< settings.AuthorizedFacesPath() << std::endl;
 	}
 }
