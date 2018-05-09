@@ -46,7 +46,7 @@ namespace Security
 
 	bool SecurityProvider::TryAuthorize(int& label, double& distance)
 	{
-		if (label == 1 && distance <= 100) {
+		if (label == 1 && distance <= confidenceThreshold) {
 			return true;
 		}
 
