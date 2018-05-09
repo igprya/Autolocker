@@ -98,7 +98,7 @@ Long story long,
 1. AutoLocker.exe (duh)
 2. opencv_world341.dll
 3. 'patterns' folder with 'haarcascade_frontalface_alt.xml' file
-4. 'owner' folder to store images of the user
+4. 'authorized_face' folder with 'reference_face.jpg' file
 
 ## Some topics I've found useful
 1. https://msdn.microsoft.com/en-us/library/ff381399(v=vs.85).aspx
