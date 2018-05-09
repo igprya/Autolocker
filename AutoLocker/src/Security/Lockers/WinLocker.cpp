@@ -64,6 +64,8 @@ namespace Security
 		int vs_width =		GetSystemMetrics(SM_CXVIRTUALSCREEN);
 		int vs_height =		GetSystemMetrics(SM_CYVIRTUALSCREEN);
 
+		windowHandleMutex.lock();
+
 		HWND hwnd = CreateWindowEx(
 			0,                              // Optional window styles.
 			CLASS_NAME,                     // Window class
@@ -84,6 +86,8 @@ namespace Security
 		securityWindowHandle = hwnd;
 		ShowWindow(hwnd, SW_SHOW);
 		SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+
+		windowHandleMutex.unlock();
 
 		// Run the message loop.
 		MSG msg = {};

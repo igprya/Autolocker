@@ -1,10 +1,11 @@
 #pragma once
-#include "IBaseLocker.h"
-
 #define NOMINMAX
 #include <Windows.h>
 #include <vector>
 #include <thread>
+#include <mutex>
+
+#include "IBaseLocker.h"
 
 namespace Security 
 {
@@ -19,6 +20,7 @@ namespace Security
 			int SecureSceens();
 			int CreateSecutiryWindowLock();
 			HWND securityWindowHandle;
+			std::mutex windowHandleMutex;			
 	};
 }
 

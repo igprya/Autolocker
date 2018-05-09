@@ -80,7 +80,7 @@ namespace Helpers
 
 	int SettingsManager::ResolveCommand(std::vector<std::string> parsedCommand)
 	{
-		int operationResult = ECODE_SUCCESS;
+		int operationResult = ECODE_NONE;
 		std::vector<std::string> arguments;
 		std::string command;
 
@@ -122,7 +122,7 @@ namespace Helpers
 			return ECODE_FAILURE;
 		}
 
-		int operationResult = ECODE_SUCCESS;
+		int operationResult = ECODE_NONE;
 		std::string parameterName = command[0];
 		std::string parameterValue = command[1];
 
@@ -185,7 +185,7 @@ namespace Helpers
 			ReadSettings();
 		}
 
-		int operationResult = ECODE_SUCCESS;
+		int operationResult = ECODE_NONE;
 		std::string parameterName = command[0];
 
 		if (parameterName == engineRpmParameter) {
