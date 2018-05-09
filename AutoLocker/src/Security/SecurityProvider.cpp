@@ -9,7 +9,8 @@ namespace Security
 		, int confidenceThreshold
 		, ISecurable* securable
 		, IBaseLocker* lockProvider
-		, Helpers::ILogger* logProvider)
+		, Helpers::ILogger* logProvider
+		, bool preventLockdown)
 	{
 		this->detectionFailureThreshold = detectionThreshold;
 		this->recognitionFailureCount = recognitionFailureThreshold;
@@ -19,6 +20,7 @@ namespace Security
 		this->securedObject = securable;
 		this->lastRecognitionTime = std::time(nullptr);
 		this->securityLogger = logProvider;
+		this->preventLockdown = preventLockdown;
 
 		SetSecurityState(SecurityState::SECURE);
 	}
@@ -134,8 +136,13 @@ namespace Security
 
 	void SecurityProvider::SetLockdown()
 	{
-		lockdownProvider->Lock();
-		securityLogger->Log("Locked down");
+		if (!preventLockdown) {
+			lockdownProvider->Lock();
+			securityLogger->Log("Locked down");
+		}
+		else {
+			securityLogger->Log("Locked down, actual lockdown prevented by 'preventlockdown' setting");
+		}
 	}
 
 

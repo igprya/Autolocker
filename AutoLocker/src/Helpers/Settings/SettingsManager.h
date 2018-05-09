@@ -39,6 +39,7 @@ namespace Helpers
 			const std::string confidenceThresholdParameter = "confidence_threshold";
 			const std::string captureDeviceIndexParameter = "capturedevide_index";
 			const std::string feedWindowParameter = "feedwindow";
+			const std::string preventLockdownParameter = "preventlockdown";
 			const std::string cascadeTemplatePathParameter = "cascadetemplate_path";
 			const std::string authorizedFacePathParameter = "authorizedfaces_path";
 	};

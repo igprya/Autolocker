@@ -18,7 +18,8 @@ namespace Security
 				, int confidenceThreshold
 				, ISecurable* securable
 				, IBaseLocker* lockProvider
-				, Helpers::ILogger* logProvider);
+				, Helpers::ILogger* logProvider
+				, bool preventLockdown = false);
 			~SecurityProvider();
 			bool TryAuthorize(int& label, double& distance);
 			void HandleDetectionFailure();
@@ -51,5 +52,7 @@ namespace Security
 			IBaseLocker* lockdownProvider = nullptr;
 			ISecurable* securedObject = nullptr;
 			Helpers::ILogger* securityLogger = nullptr;
+
+			bool preventLockdown = false;
 	};
 }

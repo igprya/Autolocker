@@ -30,7 +30,7 @@ int Engine::Start(Helpers::Settings settings)
 		return engInitResult;
 	}
 
-	std::cout << "Initalization complete" << std::endl;
+	std::cout << "Initialization complete" << std::endl;
 
 	while (nextEngineAction != nullptr)	
 	{
@@ -56,6 +56,7 @@ int Engine::InitEngine(Helpers::Settings settings)
 		, this
 		, new Security::WinLocker()
 		, new Helpers::ConLogger()
+		, settings.PreventLockdown()
 	);
 
 	feedWindow = settings.FeedWindow();

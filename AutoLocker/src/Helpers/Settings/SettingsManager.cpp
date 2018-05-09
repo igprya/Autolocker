@@ -27,8 +27,9 @@ namespace Helpers
 					case 4: settings.SetConfidenceThreshold(atoi(line.c_str())); break;
 					case 5: settings.SetDefaultCaptureDeviceIndex(atoi(line.c_str())); break;
 					case 6: settings.SetFeedWindow(atoi(line.c_str())); break;
-					case 7: settings.SetCascadeTemplateFilePath(line); break;
-					case 8: settings.SetAuthorizedFacesPath(line); break;
+					case 7: settings.SetPreventLockdown(atoi(line.c_str())); break;
+					case 8: settings.SetCascadeTemplateFilePath(line); break;
+					case 9: settings.SetAuthorizedFacesPath(line); break;
 					default: break;
 				}
 
@@ -57,6 +58,7 @@ namespace Helpers
 			settingsFile << settings.ConfidenceThreshold() << std::endl;
 			settingsFile << settings.DefaultCaptureDeviceIndex() << std::endl;
 			settingsFile << settings.FeedWindow() << std::endl;
+			settingsFile << settings.PreventLockdown() << std::endl;
 			settingsFile << settings.CascadeTemplateFilePath() << std::endl;
 			settingsFile << settings.AuthorizedFacesPath() << std::endl;
 
@@ -158,6 +160,10 @@ namespace Helpers
 			int value = atoi(parameterValue.c_str());
 			settings.SetFeedWindow(value);
 		}
+		else if (parameterName == preventLockdownParameter) {
+			int value = atoi(parameterValue.c_str());
+			settings.SetPreventLockdown(value);
+		}
 		else if (parameterName == cascadeTemplatePathParameter) {
 			settings.SetCascadeTemplateFilePath(parameterValue);
 		}
@@ -209,6 +215,9 @@ namespace Helpers
 		else if (parameterName == feedWindowParameter) {
 			std::cout << settings.FeedWindow() << std::endl;
 		}
+		else if (parameterName == preventLockdownParameter) {
+			std::cout << settings.PreventLockdown() << std::endl;
+		}
 		else if (parameterName == cascadeTemplatePathParameter) {
 			std::cout << settings.CascadeTemplateFilePath() << std::endl;
 		}
@@ -240,6 +249,7 @@ namespace Helpers
 		std::cout << "[int]  " << confidenceThresholdParameter << std::endl;
 		std::cout << "[int]  " << captureDeviceIndexParameter << std::endl;
 		std::cout << "[bool] " << feedWindowParameter << std::endl;
+		std::cout << "[bool] " << preventLockdownParameter << std::endl;
 		std::cout << "[str]  " << cascadeTemplatePathParameter << std::endl;
 		std::cout << "[str]  " << authorizedFacePathParameter << std::endl;
 	}
@@ -254,6 +264,7 @@ namespace Helpers
 		std::cout << confidenceThresholdParameter << "\t\t"			<< settings.ConfidenceThreshold() << std::endl;
 		std::cout << captureDeviceIndexParameter << "\t\t"			<< settings.DefaultCaptureDeviceIndex() << std::endl;
 		std::cout << feedWindowParameter << "\t\t\t"				<< settings.FeedWindow() << std::endl;
+		std::cout << preventLockdownParameter << "\t\t"				<< settings.PreventLockdown() << std::endl;
 		std::cout << cascadeTemplatePathParameter << "\t\t"			<< settings.CascadeTemplateFilePath() << std::endl;
 		std::cout << authorizedFacePathParameter << "\t\t"			<< settings.AuthorizedFacesPath() << std::endl;
 	}
