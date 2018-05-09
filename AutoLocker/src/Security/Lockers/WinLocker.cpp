@@ -10,8 +10,10 @@ namespace Security
 		if (isLocked) {
 			return ECODE_SUCCESS;
 		}
-		isLocked = true;
+		
 		SecureSceens();
+		isLocked = true;
+
 		return ECODE_SUCCESS;
 	}
 
@@ -22,6 +24,11 @@ namespace Security
 			return ECODE_SUCCESS;
 		}
 		isLocked = false;
+
+		if (!(securityWindowHandle == 0)) {
+			SendMessage(securityWindowHandle, WM_DESTROY, 0, 0);
+		}
+
 		return ECODE_SUCCESS;
 	}
 
@@ -74,6 +81,7 @@ namespace Security
 			return 0;
 		}
 
+		securityWindowHandle = hwnd;
 		ShowWindow(hwnd, SW_SHOW);
 		SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 
@@ -81,18 +89,8 @@ namespace Security
 		MSG msg = {};
 		while (GetMessage(&msg, NULL, 0, 0))
 		{
-			if (isLocked) {
-				TranslateMessage(&msg);
-				DispatchMessage(&msg);
-			}
-			else
-			{
-				SendMessage(hwnd, WM_DESTROY, 0, 0);
-				GetMessage(&msg, NULL, 0, 0);
-				TranslateMessage(&msg);
-				DispatchMessage(&msg);
-				break;
-			}
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
 		}
 
 		return 0;
@@ -103,16 +101,21 @@ namespace Security
 	{
 		switch (uMsg)
 		{
+			case WM_KILLFOCUS:
+			{
+				LockWorkStation();
+			}
 			case WM_DESTROY:
+			{
 				PostQuitMessage(0);
 				return 0;
-
+			}
 			case WM_PAINT:
 			{
 				PAINTSTRUCT ps;
 				HDC hdc = BeginPaint(hwnd, &ps);
 
-				FillRect(hdc, &ps.rcPaint, (HBRUSH)(COLOR_WINDOW + 1));
+				FillRect(hdc, &ps.rcPaint, (HBRUSH)(COLOR_WINDOWTEXT + 1));
 
 				EndPaint(hwnd, &ps);
 			}

@@ -18,6 +18,7 @@ namespace Security
 		private:
 			int SecureSceens();
 			int CreateSecutiryWindowLock();
+			HWND securityWindowHandle;
 	};
 }
 
