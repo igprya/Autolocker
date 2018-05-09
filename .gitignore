@@ -4,7 +4,7 @@
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
 #Project-specific folders and files
-authorized_faces/
+*.bmp
 opencv_3-4-1_contrib.zip
 
 # User-specific files
