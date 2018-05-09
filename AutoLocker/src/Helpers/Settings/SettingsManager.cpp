@@ -105,9 +105,10 @@ namespace Helpers
 		}
 		else {
 			std::cout << "Invalid command " << command << std::endl;
+			return ECODE_FAILURE;
 		}
 
-		return ECODE_NONE;
+		return ECODE_SUCCESS;
 	}
 
 

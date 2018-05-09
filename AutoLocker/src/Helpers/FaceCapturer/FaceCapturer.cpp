@@ -39,39 +39,53 @@ namespace Helpers
 		Mat firstFace;
 		std::vector<Mat> faces;
 
-		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		std::cout << "AutoLocker will now consequentally capture five images from the camera and consider them" << std::endl;
+		std::cout << "authorized to use the computer." << std::endl;
 
 		while (capturedImages < imageCount)
 		{
-			std::cout << "Press any key when you're ready to capure face";
-			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			system("pause");
+			int captureResult = CaptureFace();
 
-			for (int i = 0; i < captureInterations; i++)
-			{
-				std::this_thread::sleep_for(std::chrono::milliseconds(500));
-
-				currentFrame = capturer->GetFrame();
-
-				imshow("dbg-capturer", currentFrame);
-				waitKey(1000);			
-
-				faces = detector->GetFaces(currentFrame);
-
-				if (faces.size() > 0) {
-					break;
-				}
+			if (captureResult == ECODE_SUCCESS) {
+				capturedImages++;
 			}
+		}
 
-			if (faces.size() == 0) {
-				return ECODE_FAILURE;
-			}
+		std::cout << "Capturing completed" << std::endl;
 
-			firstFace = faces[0];
+		return ECODE_SUCCESS;
+	}
 
-			SaveImage(firstFace);
-			capturedImages++;
 
-			faces.clear();
+	int FaceCapturer::CaptureFace()
+	{
+		Mat currentFrame;
+		Mat firstFace;
+		std::vector<Mat> faces;
+
+		std::cout << "Capturing face..." << std::endl;
+
+		currentFrame = capturer->GetFrame();
+		faces = detector->GetFaces(currentFrame);
+
+		if (faces.empty()) {
+			std::cout << "Error: no faces found on captured image" << std::endl;
+			return ECODE_FAILURE;
+		}
+
+		imshow("Captured face", currentFrame);
+		waitKey(1000);
+
+		char c;
+		std::cout << "Is this face valid? [Y/N] ";
+		std::cin >> c;
+		if (toupper(c) == 'Y') {
+			SaveImage(faces[0]);
+		}
+		else {
+			std::cout << "Skipping this image." << std::endl;
+			return ECODE_FAILURE;
 		}
 
 		return ECODE_SUCCESS;

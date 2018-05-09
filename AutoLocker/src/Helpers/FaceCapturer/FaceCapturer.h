@@ -24,6 +24,7 @@ namespace Helpers
 			int Learn();
 
 		private:
+			int CaptureFace();
 			int SaveImage(Mat& face);
 
 			Capturer* capturer;
