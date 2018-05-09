@@ -100,6 +100,30 @@ Long story long,
 3. 'patterns' folder with 'haarcascade_frontalface_alt.xml' file
 4. 'authorized_face' folder with 'reference_face.jpg' file
 
+## Add someone to the authorized users
+1. Run the Autolocker.exe and type `learn`.
+2. Wait until the program captures and shows you an image from camera.
+3. If an image is vaild, type `Y` to save it or `N` to repeat (this prompt might be hidden behind image window).
+
+The process will be repeated five times. Feel free to run `learn` when you feel that existing photos aren't allowing the program to recognize the user (due to different lighting conditions or whatnot).
+
+## Remove someone from authorized users
+Navigate to `./authorized_faces` folder and remove images manually.
+
+## Settings description
+Set settings by typing `sm set <parameter name> <value>`
+
+1. `engine_rpm` - a delay in milliseconds between engine iterations.
+2. `detectionfailure_threshold` - amount of consequental failed face _detections_ after which lockdown is engaged.
+3. `recognitionfailure_threshold` - amount of consequental failed face _recognitions_ after which lockdown is engaged.
+4. `recognition_interval` - amount of milliseconds between each recognition.
+5. `confidence_threshold` - a recognition confidence value after which a face is considered unrecognized. Lower values mean higher recognition confidence.
+6. `capturedevide_index` - an index of a capture device. Usually `0`.
+7. `feedwindow` - boolean switch that specifies if camera feed must be show during program's operation.
+8. `preventlockdown` - boolean switch that allows to prevent actual lockdown. Useful for thershold calibration.
+9. `cascadetemplate_path` - a path to the template consumed by face detector.
+10. `authorizedfaces_path` - a path tho the folder with images of authorized users.
+
 ## Some topics I've found useful
 1. https://msdn.microsoft.com/en-us/library/ff381399(v=vs.85).aspx
 3. https://habrahabr.ru/post/182610/

@@ -99,7 +99,7 @@ namespace Security
 
 		return 0;
 	}
-
+	
 
 	LRESULT WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
@@ -119,7 +119,9 @@ namespace Security
 				PAINTSTRUCT ps;
 				HDC hdc = BeginPaint(hwnd, &ps);
 
-				FillRect(hdc, &ps.rcPaint, (HBRUSH)(COLOR_WINDOWTEXT + 1));
+				// Any other color than white causes the window to hang the message processing		
+				HBRUSH brush = CreateSolidBrush(RGB(255, 255, 255));
+				FillRect(hdc, &ps.rcPaint, brush);
 
 				EndPaint(hwnd, &ps);
 			}

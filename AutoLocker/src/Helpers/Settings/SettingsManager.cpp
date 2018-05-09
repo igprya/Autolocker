@@ -264,7 +264,7 @@ namespace Helpers
 		std::cout << confidenceThresholdParameter << "\t\t"			<< settings.ConfidenceThreshold() << std::endl;
 		std::cout << captureDeviceIndexParameter << "\t\t"			<< settings.DefaultCaptureDeviceIndex() << std::endl;
 		std::cout << feedWindowParameter << "\t\t\t"				<< settings.FeedWindow() << std::endl;
-		std::cout << preventLockdownParameter << "\t\t"				<< settings.PreventLockdown() << std::endl;
+		std::cout << preventLockdownParameter << "\t\t\t"				<< settings.PreventLockdown() << std::endl;
 		std::cout << cascadeTemplatePathParameter << "\t\t"			<< settings.CascadeTemplateFilePath() << std::endl;
 		std::cout << authorizedFacePathParameter << "\t\t"			<< settings.AuthorizedFacesPath() << std::endl;
 	}

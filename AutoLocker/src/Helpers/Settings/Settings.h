@@ -33,7 +33,7 @@ namespace Helpers
 			int engineRpm = 50;
 			int detectionFailureThreshold = 10;
 			int recognitionFailureThreshold = 10;
-			int recognitionInterval = 10;
+			int recognitionInterval = 10000;
 			int confidenceThreshold = 100;
 			int defaultCaptureDevideIndex = 0;
 			bool feedWindow = false;
