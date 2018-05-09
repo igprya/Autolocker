@@ -51,6 +51,7 @@ namespace Helpers
 			}
 		}
 
+		cv::destroyWindow("Captured face");
 		std::cout << "Capturing completed" << std::endl;
 
 		return ECODE_SUCCESS;
@@ -74,16 +75,17 @@ namespace Helpers
 		}
 
 		imshow("Captured face", currentFrame);
-		waitKey(1000);
+		waitKey(10);
 
-		char c;
+		std::string response;
 		std::cout << "Is this face valid? [Y/N] ";
-		std::cin >> c;
-		if (toupper(c) == 'Y') {
+		std::getline(std::cin, response);
+
+		if (toupper(response[0]) == 'Y') {
 			SaveImage(faces[0]);
 		}
 		else {
-			std::cout << "Skipping this image." << std::endl;
+			std::cout << "Skipping this image." << std::endl << std::endl;;
 			return ECODE_FAILURE;
 		}
 
@@ -100,7 +102,7 @@ namespace Helpers
 
 		imwrite(filePath, imageMat);
 
-		std::cout << "Face saved to " << filePath << std::endl;
+		std::cout << "Face saved to " << filePath << std::endl << std::endl;
 
 		return ECODE_SUCCESS;
 	}
