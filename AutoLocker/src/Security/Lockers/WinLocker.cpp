@@ -15,6 +15,7 @@ namespace Security
 		return ECODE_SUCCESS;
 	}
 
+
 	int WinLocker::Unlock()
 	{
 		if (!isLocked) {
@@ -24,16 +25,19 @@ namespace Security
 		return ECODE_SUCCESS;
 	}
 
+
 	bool WinLocker::IsLocked()
 	{
 		return isLocked;
 	}
+
 
 	int WinLocker::SecureSceens()
 	{
 		std::thread* windowThread = new std::thread(&WinLocker::CreateSecutiryWindowLock, this);
 		return 0;
 	}
+
 
 	int WinLocker::CreateSecutiryWindowLock()
 	{
@@ -93,6 +97,7 @@ namespace Security
 
 		return 0;
 	}
+
 
 	LRESULT WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{

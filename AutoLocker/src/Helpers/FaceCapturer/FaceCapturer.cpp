@@ -11,11 +11,13 @@ namespace Helpers
 		detector = new Detector();
 	}
 
+
 	FaceCapturer::~FaceCapturer()
 	{
 		delete capturer;
 		delete detector;
 	}
+
 
 	int FaceCapturer::InitFaceCaputrer(Helpers::Settings settings)
 	{
@@ -25,6 +27,7 @@ namespace Helpers
 
 		return ECODE_SUCCESS;
 	}
+
 
 	int FaceCapturer::Learn()
 	{
@@ -73,6 +76,7 @@ namespace Helpers
 
 		return ECODE_SUCCESS;
 	}
+
 
 	int FaceCapturer::SaveImage(Mat& imageMat)
 	{

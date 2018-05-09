@@ -8,6 +8,7 @@ namespace Processing
 		model = LBPHFaceRecognizer::create(2, 16);
 	}
 
+
 	int Recognizer::InitRecognition(std::string facesDirectoryPath)
 	{	
 		for (auto& p : std::experimental::filesystem::directory_iterator(facesDirectoryPath))
@@ -33,6 +34,7 @@ namespace Processing
 		return ECODE_FAILURE;
 	}
 
+
 	int Recognizer::RecognizeFace(Mat& face, int& label, double& confidence)
 	{
 		try	{
@@ -46,17 +48,20 @@ namespace Processing
 		}
 	}
 	
+
 	void Recognizer::GetLastRecognitionResults(int& lastLabel, double& lastConfidence)
 	{
 		lastLabel = this->lastRecognitionLablel;
 		lastConfidence = this->lastRecognitionConfidence;
 	}
 
+
 	void Recognizer::SetLastRecognitionResults(int& label, double& confidence)
 	{
 		this->lastRecognitionLablel = label;
 		this->lastRecognitionConfidence = confidence;
 	}
+
 
 	int Recognizer::TrainModel()
 	{
@@ -68,6 +73,7 @@ namespace Processing
 			return ECODE_FAILURE;
 		}
 	}
+
 
 	int Recognizer::TrainModel(std::vector<Mat>& cImages, std::vector<int> cLabels)
 	{

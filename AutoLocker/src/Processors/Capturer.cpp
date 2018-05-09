@@ -17,6 +17,8 @@ namespace Processing
 
 		return ECODE_SUCCESS;
 	}
+
+
 	Mat Capturer::GetFrame()
 	{
 		Mat currentFrame;

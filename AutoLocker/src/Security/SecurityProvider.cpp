@@ -23,11 +23,13 @@ namespace Security
 		SetSecurityState(SecurityState::SECURE);
 	}
 
+
 	SecurityProvider::~SecurityProvider()
 	{
 		delete lockdownProvider;
 	}
 	
+
 	SecurityAction SecurityProvider::GetRequiredAction()
 	{
 		if (securityState == SecurityState::ALERT || securityState == SecurityState::LOCKDOWN) {
@@ -41,6 +43,7 @@ namespace Security
 		return SecurityAction::DETECT;
 	}
 
+
 	bool SecurityProvider::TryAuthorize(int& label, double& distance)
 	{
 		if (label == 1 && distance <= 100) {
@@ -49,6 +52,7 @@ namespace Security
 
 		return false;
 	}
+
 
 	void SecurityProvider::HandleDetectionFailure()
 	{
@@ -60,6 +64,7 @@ namespace Security
 		}
 	}
 
+
 	void SecurityProvider::HandleDetectionSuccess()
 	{
 		DropCounter(detectionFailureCount);
@@ -68,6 +73,7 @@ namespace Security
 			SetSecurityState(SecurityState::ALERT);
 		}
 	}
+
 
 	void SecurityProvider::HandleAuthorizaitonFailure()
 	{
@@ -84,6 +90,7 @@ namespace Security
 		}
 	}
 
+
 	void SecurityProvider::HandleAuthorizationSuccess()
 	{
 		DropCounter(recognitionFailureCount);
@@ -96,6 +103,7 @@ namespace Security
 		SetSecurityState(SecurityState::SECURE);
 	}
 
+
 	void SecurityProvider::HandleMultilpleFaces(int faceCount)
 	{
 		std::stringstream ss;
@@ -104,11 +112,13 @@ namespace Security
 		securityLogger->Log(ss.str());
 	}
 
+
 	void SecurityProvider::ForceLockdown()
 	{
 		SetLockdown();
 		SetSecurityState(SecurityState::LOCKDOWN);
 	}
+
 
 	void SecurityProvider::SetSecurityState(SecurityState state)
 	{
@@ -121,11 +131,13 @@ namespace Security
 		}
 	}
 
+
 	void SecurityProvider::SetLockdown()
 	{
 		lockdownProvider->Lock();
 		securityLogger->Log("Locked down");
 	}
+
 
 	void SecurityProvider::ReleaseLockdown()
 	{
@@ -133,15 +145,18 @@ namespace Security
 		securityLogger->Log("Lockdown released");
 	}
 
+
 	inline double SecurityProvider::GetRecognitionTimeGap()
 	{
 		return std::difftime(std::time(nullptr), lastRecognitionTime);
 	}
 
+
 	void SecurityProvider::IncCount(int& counter)
 	{
 		counter++;
 	}
+
 
 	void SecurityProvider::DropCounter(int& counter)
 	{

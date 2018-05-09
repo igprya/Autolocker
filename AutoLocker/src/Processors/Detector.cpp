@@ -10,11 +10,13 @@ namespace Processing
 		delete classifier;
 	}
 
+
 	int Detector::InitDetection(std::string cascadePath)
 	{
 		classifier = new CascadeClassifier(cascadePath);
 		return ECODE_SUCCESS;
 	}
+
 
 	std::vector<Rect> Detector::GetFaceRects(Mat& frame)
 	{
@@ -28,6 +30,7 @@ namespace Processing
 
 		return detectedFaces;
 	}
+
 
 	std::vector<Mat> Detector::GetFaces(Mat& frame)
 	{
