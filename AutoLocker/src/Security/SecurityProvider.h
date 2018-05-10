@@ -4,7 +4,7 @@
 
 #include "ISecurable.h"
 #include "Lockers\IBaseLocker.h"
-
+#include "..\Helpers\Settings\Settings.h"
 #include "..\Helpers\Loggers\ILogger.h"
 
 namespace Security
@@ -12,14 +12,10 @@ namespace Security
 	class SecurityProvider
 	{
 		public:
-			SecurityProvider(int detectionThreshold
-				, int recognitionThreshold
-				, int recognitionInterval
-				, int confidenceThreshold
+			SecurityProvider(Helpers::Settings settings
 				, ISecurable* securable
-				, IBaseLocker* lockProvider
-				, Helpers::ILogger* logProvider
-				, bool preventLockdown = false);
+				, IBaseLocker* locker
+				, Helpers::ILogger* logger);
 			~SecurityProvider();
 			bool TryAuthorize(int& label, double& distance);
 			void HandleDetectionFailure();
@@ -32,27 +28,19 @@ namespace Security
 		protected:			
 			void SetSecurityState(SecurityState securityState);
 			SecurityAction GetRequiredAction();
-			void SetLockdown();
-			void ReleaseLockdown();
-		
 			inline double GetRecognitionTimeGap();
-			inline void IncCount(int& counter);
-			inline void DropCounter(int& counter);
+			void SetLockdown();
+			void ReleaseLockdown();			
 
-			int detectionFailureThreshold = 0;
-			int recognitionFailureThreshold = 0;
-			int recognitionInterval = 0;
-			int confidenceThreshold = 0;
-			time_t lastRecognitionTime = 0;
-
-			int detectionFailureCount = 0;
-			int recognitionFailureCount = 0;
-
-			SecurityState securityState = SecurityState::UNSECURED;
-			IBaseLocker* lockdownProvider = nullptr;
+			Helpers::Settings settings;
 			ISecurable* securedObject = nullptr;
+			SecurityState securityState = SecurityState::UNSECURED;			
+
+			IBaseLocker* lockdownProvider = nullptr;			
 			Helpers::ILogger* securityLogger = nullptr;
 
-			bool preventLockdown = false;
+			time_t lastRecognitionTime = 0;
+			int detectionFailureCount = 0;
+			int recognitionFailureCount = 0;
 	};
 }

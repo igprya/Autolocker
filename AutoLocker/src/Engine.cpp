@@ -12,6 +12,9 @@ Engine::Engine()
 
 Engine::~Engine()
 {
+	std::cout << "Deinitializing engine..." << std::endl;
+
+	cv::destroyAllWindows();
 	delete securityProvider;
 	delete capturer;
 	delete detector;
@@ -49,14 +52,10 @@ int Engine::Start(Helpers::Settings settings)
 
 int Engine::InitEngine(Helpers::Settings settings)
 {
-	securityProvider = new Security::SecurityProvider(settings.DetectionFailureThreshold()
-		, settings.RecognitionFailureThreshold()
-		, settings.RecognitionInterval()
-		, settings.ConfidenceThreshold()
+	securityProvider = new Security::SecurityProvider(settings
 		, this
 		, new Security::WinLocker()
 		, new Helpers::ConLogger()
-		, settings.PreventLockdown()
 	);
 
 	feedWindow = settings.FeedWindow();
@@ -139,6 +138,11 @@ int Engine::RecognizeFace()
 			recognizer->RecognizeFace(faceMats[i], label, confidence);
 			authorizationSuccess = securityProvider->TryAuthorize(label, confidence);
 		}
+
+		if (feedWindow) {
+			std::vector<Rect> empty;
+			ShowUI(frame, empty);
+		}
 	}
 
 	if (authorizationSuccess) {
@@ -189,7 +193,7 @@ void Engine::ShowUI(Mat& frame, std::vector<Rect>& faces)
 	ss << recognitionLabel << " (" << recognitionConfidence << ")";
 
 	DrawFaceFrames(frame, faces);
-	putText(frame, ss.str(), Point(10, 50), HersheyFonts::FONT_HERSHEY_PLAIN, 2, Scalar::all(255), 2);
-	imshow("Camera feed", frame);
-	waitKey(5);
+	cv::putText(frame, ss.str(), Point(10, 50), HersheyFonts::FONT_HERSHEY_PLAIN, 2, Scalar::all(255), 2);
+	cv::imshow("Camera feed", frame);
+	waitKey(1);
 }

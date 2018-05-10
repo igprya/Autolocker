@@ -3,25 +3,17 @@
 
 namespace Security
 {
-	SecurityProvider::SecurityProvider(int detectionThreshold
-		, int recognitionThreshold
-		, int recognitionInterval
-		, int confidenceThreshold
+	SecurityProvider::SecurityProvider(Helpers::Settings settings
 		, ISecurable* securable
-		, IBaseLocker* lockProvider
-		, Helpers::ILogger* logProvider
-		, bool preventLockdown)
+		, IBaseLocker* locker
+		, Helpers::ILogger* logger)
 	{
-		this->detectionFailureThreshold = detectionThreshold;
-		this->recognitionFailureCount = recognitionFailureThreshold;
-		this->recognitionInterval = recognitionInterval;
-		this->confidenceThreshold = confidenceThreshold;
-		this->lockdownProvider = lockProvider;	
+		this->settings = settings;
 		this->securedObject = securable;
-		this->lastRecognitionTime = std::time(nullptr);
-		this->securityLogger = logProvider;
-		this->preventLockdown = preventLockdown;
+		this->lockdownProvider = locker;	
+		this->securityLogger = logger;
 
+		this->lastRecognitionTime = std::time(nullptr);
 		SetSecurityState(SecurityState::SECURE);
 	}
 
@@ -37,10 +29,6 @@ namespace Security
 		if (securityState == SecurityState::ALERT || securityState == SecurityState::LOCKDOWN) {
 			return SecurityAction::RECOGNIZE;
 		}
-
-		if (GetRecognitionTimeGap() > recognitionInterval) {
-			return SecurityAction::RECOGNIZE;
-		}
 		
 		return SecurityAction::DETECT;
 	}
@@ -48,30 +36,29 @@ namespace Security
 
 	bool SecurityProvider::TryAuthorize(int& label, double& distance)
 	{
-		if (label == 1 && distance <= confidenceThreshold) {
+		if (label == 1 && distance <= settings.ConfidenceThreshold()) {
 			return true;
 		}
-
+		
 		return false;
 	}
 
 
 	void SecurityProvider::HandleDetectionFailure()
 	{
-		IncCount(detectionFailureCount);
+		detectionFailureCount++;
 
-		if (detectionFailureCount > detectionFailureThreshold) {
+		if (detectionFailureCount > settings.DetectionFailureThreshold()) {
 			SetSecurityState(SecurityState::ALERT);
-			DropCounter(detectionFailureCount);
 		}
 	}
 
 
 	void SecurityProvider::HandleDetectionSuccess()
 	{
-		DropCounter(detectionFailureCount);
+		detectionFailureCount = 0;
 
-		if (GetRecognitionTimeGap() > recognitionInterval) {
+		if (GetRecognitionTimeGap() > settings.RecognitionInterval()) {
 			SetSecurityState(SecurityState::ALERT);
 		}
 	}
@@ -79,29 +66,27 @@ namespace Security
 
 	void SecurityProvider::HandleAuthorizaitonFailure()
 	{
-		IncCount(recognitionFailureCount);
+		recognitionFailureCount++;
 
-		if (recognitionFailureCount > recognitionFailureThreshold) {
+		if (recognitionFailureCount > settings.RecognitionFailureThreshold()) {
 			
 			if (securityState != SecurityState::LOCKDOWN) {
+				SetSecurityState(SecurityState::LOCKDOWN);
 				SetLockdown();
 			}
-
-			SetSecurityState(SecurityState::LOCKDOWN);
-			DropCounter(recognitionFailureCount);
 		}
 	}
 
 
 	void SecurityProvider::HandleAuthorizationSuccess()
 	{
-		DropCounter(recognitionFailureCount);
+		recognitionFailureCount = 0;
+		lastRecognitionTime = std::time(nullptr);
 
 		if (securityState == SecurityState::LOCKDOWN) {
 			ReleaseLockdown();
-		}
+		}		
 
-		lastRecognitionTime = std::time(nullptr);
 		SetSecurityState(SecurityState::SECURE);
 	}
 
@@ -122,10 +107,10 @@ namespace Security
 	}
 
 
-	void SecurityProvider::SetSecurityState(SecurityState state)
+	void SecurityProvider::SetSecurityState(SecurityState newState)
 	{
-		if (state != securityState)	{
-			securityState = state;
+		if (newState != securityState)	{
+			securityState = newState;
 
 			if (securedObject) {
 				securedObject->SecurityStateChanged(GetRequiredAction());
@@ -136,7 +121,7 @@ namespace Security
 
 	void SecurityProvider::SetLockdown()
 	{
-		if (!preventLockdown) {
+		if (!settings.PreventLockdown()) {
 			lockdownProvider->Lock();
 			securityLogger->Log("Locked down");
 		}
@@ -156,17 +141,5 @@ namespace Security
 	inline double SecurityProvider::GetRecognitionTimeGap()
 	{
 		return std::difftime(std::time(nullptr), lastRecognitionTime);
-	}
-
-
-	void SecurityProvider::IncCount(int& counter)
-	{
-		counter++;
-	}
-
-
-	void SecurityProvider::DropCounter(int& counter)
-	{
-		counter = 0;
 	}
 }
