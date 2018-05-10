@@ -32,12 +32,12 @@ namespace Processing
 		}
 
 		if (!referenceFaceAdded) {
-			std::cout << "Error: cannot initalize recognition model. Make sure that 'reference_face.jpg' file is present in /authorized_faces folder" << std::endl;
+			std::cerr << "Recognizer error: cannot initalize recognition model. Make sure that 'reference_face.jpg' file is present in /authorized_faces folder" << std::endl;
 			return ECODE_FAILURE;
 		}
 
 		if (!userFaceAdded) {
-			std::cout << "Error: cannot initialize recognition model: no authorized faces present. Type 'learn' to register your face." << std::endl;
+			std::cerr << "Recognizer error: cannot initialize recognition model: no authorized faces present. Type 'learn' to register your face." << std::endl;
 			return ECODE_FAILURE;
 		}
 

@@ -14,8 +14,8 @@ namespace Security
 		public:
 			/* 
 			   Called by SecurityProvider to communicate a security state change to
-			   the secured class
+			   the secured class and demand it to react to the change
 			*/
-			virtual void SecurityStateChanged(SecurityAction action) = 0;
+			virtual void OnSecurityStateChange(SecurityAction requiredAction) = 0;
 	};
 }

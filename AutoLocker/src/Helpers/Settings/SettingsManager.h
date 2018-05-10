@@ -38,6 +38,7 @@ namespace Helpers
 			const std::string recognitionIntervalParameter = "recognition_interval";
 			const std::string confidenceThresholdParameter = "confidence_threshold";
 			const std::string captureDeviceIndexParameter = "capturedevide_index";
+			const std::string logVerbosityLevelParameter = "logverbosity";
 			const std::string feedWindowParameter = "feedwindow";
 			const std::string preventLockdownParameter = "preventlockdown";
 			const std::string cascadeTemplatePathParameter = "cascadetemplate_path";

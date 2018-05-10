@@ -26,10 +26,11 @@ namespace Helpers
 					case 3: settings.SetRecognitionInterval(atoi(line.c_str())); break;
 					case 4: settings.SetConfidenceThreshold(atoi(line.c_str())); break;
 					case 5: settings.SetDefaultCaptureDeviceIndex(atoi(line.c_str())); break;
-					case 6: settings.SetFeedWindow(atoi(line.c_str())); break;
-					case 7: settings.SetPreventLockdown(atoi(line.c_str())); break;
-					case 8: settings.SetCascadeTemplateFilePath(line); break;
-					case 9: settings.SetAuthorizedFacesPath(line); break;
+					case 6: settings.SetLogVerbosityLevel(atoi(line.c_str())); break;
+					case 7: settings.SetFeedWindow(atoi(line.c_str())); break;
+					case 8: settings.SetPreventLockdown(atoi(line.c_str())); break;
+					case 9: settings.SetCascadeTemplateFilePath(line); break;
+					case 10: settings.SetAuthorizedFacesPath(line); break;
 					default: break;
 				}
 
@@ -57,6 +58,7 @@ namespace Helpers
 			settingsFile << settings.RecognitionInterval() << std::endl;
 			settingsFile << settings.ConfidenceThreshold() << std::endl;
 			settingsFile << settings.DefaultCaptureDeviceIndex() << std::endl;
+			settingsFile << settings.LogVerbosityLevel() << std::endl;
 			settingsFile << settings.FeedWindow() << std::endl;
 			settingsFile << settings.PreventLockdown() << std::endl;
 			settingsFile << settings.CascadeTemplateFilePath() << std::endl;
@@ -156,6 +158,10 @@ namespace Helpers
 			int value = atoi(parameterValue.c_str());
 			settings.SetDefaultCaptureDeviceIndex(value);
 		}
+		else if (parameterName == logVerbosityLevelParameter) {
+			int value = atoi(parameterValue.c_str());
+			settings.SetLogVerbosityLevel(value);
+		}
 		else if (parameterName == feedWindowParameter) {
 			int value = atoi(parameterValue.c_str());
 			settings.SetFeedWindow(value);
@@ -212,6 +218,9 @@ namespace Helpers
 		else if (parameterName == captureDeviceIndexParameter) {
 			std::cout << settings.DefaultCaptureDeviceIndex() << std::endl;
 		}
+		else if (parameterName == logVerbosityLevelParameter) {
+			std::cout << settings.LogVerbosityLevel() << std::endl;
+		}
 		else if (parameterName == feedWindowParameter) {
 			std::cout << settings.FeedWindow() << std::endl;
 		}
@@ -248,6 +257,7 @@ namespace Helpers
 		std::cout << "[int]  " << recognitionIntervalParameter << std::endl;
 		std::cout << "[int]  " << confidenceThresholdParameter << std::endl;
 		std::cout << "[int]  " << captureDeviceIndexParameter << std::endl;
+		std::cout << "[int]  " << logVerbosityLevelParameter << " [0:SILENT, 1:ERROR, 2:WARNING, 3:LOG, 4:DEBUG]" << std::endl;
 		std::cout << "[bool] " << feedWindowParameter << std::endl;
 		std::cout << "[bool] " << preventLockdownParameter << std::endl;
 		std::cout << "[str]  " << cascadeTemplatePathParameter << std::endl;
@@ -263,8 +273,9 @@ namespace Helpers
 		std::cout << recognitionIntervalParameter << "\t\t"			<< settings.RecognitionInterval() << std::endl;
 		std::cout << confidenceThresholdParameter << "\t\t"			<< settings.ConfidenceThreshold() << std::endl;
 		std::cout << captureDeviceIndexParameter << "\t\t"			<< settings.DefaultCaptureDeviceIndex() << std::endl;
+		std::cout << logVerbosityLevelParameter << "\t\t\t"			<< settings.LogVerbosityLevel() << std::endl;
 		std::cout << feedWindowParameter << "\t\t\t"				<< settings.FeedWindow() << std::endl;
-		std::cout << preventLockdownParameter << "\t\t\t"				<< settings.PreventLockdown() << std::endl;
+		std::cout << preventLockdownParameter << "\t\t\t"			<< settings.PreventLockdown() << std::endl;
 		std::cout << cascadeTemplatePathParameter << "\t\t"			<< settings.CascadeTemplateFilePath() << std::endl;
 		std::cout << authorizedFacePathParameter << "\t\t"			<< settings.AuthorizedFacesPath() << std::endl;
 	}

@@ -17,11 +17,11 @@ namespace Security
 				, IBaseLocker* locker
 				, Helpers::ILogger* logger);
 			~SecurityProvider();
-			bool TryAuthorize(int& label, double& distance);
+			bool TryRecognize(int& label, double& distance);
 			void HandleDetectionFailure();
 			void HandleDetectionSuccess();
-			void HandleAuthorizaitonFailure();
-			void HandleAuthorizationSuccess();
+			void HandleRecognitionFailure();
+			void HandleRecognitionSuccess();
 			void HandleMultilpleFaces(int faceCount);
 			void ForceLockdown();
 

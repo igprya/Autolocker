@@ -34,12 +34,13 @@ namespace Security
 	}
 
 
-	bool SecurityProvider::TryAuthorize(int& label, double& distance)
+	bool SecurityProvider::TryRecognize(int& label, double& distance)
 	{
 		if (label == 1 && distance <= settings.ConfidenceThreshold()) {
 			return true;
 		}
 		
+		securityLogger->Debug("Beyond recognition threshold", std::to_string(distance));
 		return false;
 	}
 
@@ -51,6 +52,8 @@ namespace Security
 		if (detectionFailureCount > settings.DetectionFailureThreshold()) {
 			SetSecurityState(SecurityState::ALERT);
 		}
+
+		securityLogger->Debug("Detection failure", std::to_string(detectionFailureCount));
 	}
 
 
@@ -61,10 +64,12 @@ namespace Security
 		if (GetRecognitionTimeGap() > settings.RecognitionInterval()) {
 			SetSecurityState(SecurityState::ALERT);
 		}
+
+		securityLogger->Debug("Detection success");
 	}
 
 
-	void SecurityProvider::HandleAuthorizaitonFailure()
+	void SecurityProvider::HandleRecognitionFailure()
 	{
 		recognitionFailureCount++;
 
@@ -75,10 +80,12 @@ namespace Security
 				SetLockdown();
 			}
 		}
+
+		securityLogger->Debug("Recognition failure", std::to_string(recognitionFailureCount));
 	}
 
 
-	void SecurityProvider::HandleAuthorizationSuccess()
+	void SecurityProvider::HandleRecognitionSuccess()
 	{
 		recognitionFailureCount = 0;
 		lastRecognitionTime = std::time(nullptr);
@@ -88,6 +95,8 @@ namespace Security
 		}		
 
 		SetSecurityState(SecurityState::SECURE);
+
+		securityLogger->Debug("Recognition success");
 	}
 
 
@@ -95,8 +104,7 @@ namespace Security
 	{
 		std::stringstream ss;
 		ss << "Multile faces (" << faceCount << ") detected";
-
-		securityLogger->Log(ss.str());
+		securityLogger->Warning(ss.str());
 	}
 
 
@@ -113,7 +121,7 @@ namespace Security
 			securityState = newState;
 
 			if (securedObject) {
-				securedObject->SecurityStateChanged(GetRequiredAction());
+				securedObject->OnSecurityStateChange(GetRequiredAction());
 			}
 		}
 	}
@@ -126,7 +134,7 @@ namespace Security
 			securityLogger->Log("Locked down");
 		}
 		else {
-			securityLogger->Log("Locked down, actual lockdown prevented by 'preventlockdown' setting");
+			securityLogger->Warning("Locked down, actual lockdown prevented by 'preventlockdown' setting");
 		}
 	}
 

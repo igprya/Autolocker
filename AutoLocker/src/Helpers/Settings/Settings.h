@@ -13,6 +13,7 @@ namespace Helpers
 			int RecognitionInterval()				{ return recognitionInterval; };
 			int ConfidenceThreshold()				{ return confidenceThreshold; };
 			int DefaultCaptureDeviceIndex()			{ return defaultCaptureDevideIndex; };
+			int LogVerbosityLevel()					{ return logVerbosityLevel; };
 			bool FeedWindow()						{ return feedWindow; };
 			bool PreventLockdown()					{ return preventLockdown; };
 			std::string CascadeTemplateFilePath()	{ return cascadeTemplateFilePath; };
@@ -24,6 +25,7 @@ namespace Helpers
 			void SetRecognitionInterval(int value)				{ recognitionInterval = value; }
 			void SetConfidenceThreshold(int value)				{ confidenceThreshold = value; }
 			void SetDefaultCaptureDeviceIndex(int value)		{ defaultCaptureDevideIndex = value; };
+			void SetLogVerbosityLevel(int value)				{ logVerbosityLevel = value; };
 			void SetFeedWindow(bool value)						{ feedWindow = value; };
 			void SetPreventLockdown(bool value)					{ preventLockdown = value; };
 			void SetCascadeTemplateFilePath(std::string path)	{ cascadeTemplateFilePath = path; };
@@ -36,6 +38,7 @@ namespace Helpers
 			int recognitionInterval = 10000;
 			int confidenceThreshold = 100;
 			int defaultCaptureDevideIndex = 0;
+			int logVerbosityLevel = 3;
 			bool feedWindow = false;
 			bool preventLockdown = false;
 			std::string cascadeTemplateFilePath = "patterns/haarcascade_frontalface_alt.xml";

@@ -30,24 +30,27 @@ class Engine : public Security::ISecurable
 	public:
 		Engine();
 		~Engine();
-		int Start(Helpers::Settings settings);
+		int InitEngine(Helpers::Settings settings, Security::IBaseLocker* locker, Helpers::ILogger* engineLogger);
+		int Start();
 
-	private:
-		int InitEngine(Helpers::Settings settings);
+	private:		
 		int DetectFace();
 		int RecognizeFace();
 
-		void SecurityStateChanged(Security::SecurityAction action);
+		void OnSecurityStateChange(Security::SecurityAction requiredAction);
 		void SetNextAction(engine_fptr action);
 
 		void ShowUI(Mat& frame, std::vector<Rect>& faces);
 		void DrawFaceFrames(Mat& frame, std::vector<Rect>& detectedFaces);
 		
 		engine_fptr nextEngineAction = nullptr;
+		Helpers::ILogger* engineLogger = nullptr;
 		Security::SecurityProvider* securityProvider = nullptr;
 		Processing::Capturer* capturer = nullptr;
 		Processing::Detector* detector = nullptr;
 		Processing::Recognizer* recognizer = nullptr;
-		bool feedWindow = false;
+		Helpers::Settings settings;
+
+		bool isInitialized = false;
 };
 

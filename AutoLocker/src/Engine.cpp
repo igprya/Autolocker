@@ -7,12 +7,12 @@ Engine::Engine()
 {
 	capturer = new Processing::Capturer();
 	detector = new Processing::Detector();
-	recognizer = new Processing::Recognizer();
+	recognizer = new Processing::Recognizer();	
 }
 
 Engine::~Engine()
 {
-	std::cout << "Deinitializing engine..." << std::endl;
+	engineLogger->Log("Deinitializing engine...");
 
 	cv::destroyAllWindows();
 	delete securityProvider;
@@ -21,19 +21,11 @@ Engine::~Engine()
 	delete recognizer;
 }
 
-int Engine::Start(Helpers::Settings settings)
+int Engine::Start()
 {
-	std::cout << "Initializing engine..." << std::endl;
+	engineLogger->Log("Starting eninge...");
 
-	int engInitResult = InitEngine(settings);
 	int engineActionResult = ECODE_SUCCESS;
-
-	if (engInitResult < ECODE_SUCCESS) {	
-		std::cout << "Initalization failure!" << std::endl;
-		return engInitResult;
-	}
-
-	std::cout << "Initialization complete" << std::endl;
 
 	while (nextEngineAction != nullptr)	
 	{
@@ -47,18 +39,27 @@ int Engine::Start(Helpers::Settings settings)
 		std::this_thread::sleep_for(std::chrono::milliseconds(settings.EngineRpm()));
 	}
 
+	engineLogger->Log("Stopping engine...");
+
 	return ECODE_SUCCESS;
 }
 
-int Engine::InitEngine(Helpers::Settings settings)
+int Engine::InitEngine(Helpers::Settings settings
+	, Security::IBaseLocker* locker
+	, Helpers::ILogger* logger)
 {
+	int initResult = ECODE_SUCCESS;
+	
+	this->settings = settings;
+	this->engineLogger = logger;
+	
+	engineLogger->Log("Initializing engine...");
+	
 	securityProvider = new Security::SecurityProvider(settings
 		, this
-		, new Security::WinLocker()
-		, new Helpers::ConLogger()
+		, locker
+		, engineLogger
 	);
-
-	feedWindow = settings.FeedWindow();
 
 	bool capturerRunning = false;
 	bool detectorRunning = false;
@@ -69,18 +70,24 @@ int Engine::InitEngine(Helpers::Settings settings)
 	recognizerRunning = this->recognizer->InitRecognition(settings.AuthorizedFacesPath());	
 
 	if (!capturerRunning) {
-		return ERROR_CAPTURER_FAILED_INIT;
+		initResult = ERROR_CAPTURER_FAILED_INIT;
 	}
 
 	if (!detectorRunning) {
-		return ERROR_DETECTOR_FAILED_INIT;
+		initResult = ERROR_DETECTOR_FAILED_INIT;
 	}
 
 	if (!recognizerRunning) {
-		return ERROR_RECOGNIZER_FAILED_INIT;
+		initResult = ERROR_RECOGNIZER_FAILED_INIT;
 	}
 
-	return ECODE_SUCCESS;
+	if (initResult != ECODE_SUCCESS) {
+		engineLogger->Error("Engine initialization failure!");
+	} else {
+		engineLogger->Log("Initialization complete");
+	}
+
+	return initResult;
 }
 
 int Engine::DetectFace()
@@ -95,11 +102,11 @@ int Engine::DetectFace()
 
 	std::vector<Rect> faces = detector->GetFaceRects(frame);
 
-	if (faces.size() > 0) {
+	if (!faces.empty()) {
 		detectionSuccess = true;
 		faceCount = faces.size();
 
-		if (feedWindow) {
+		if (settings.FeedWindow()) {
 			ShowUI(frame, faces);
 		}
 	}
@@ -120,7 +127,7 @@ int Engine::DetectFace()
 
 int Engine::RecognizeFace()
 {
-	bool authorizationSuccess = false;
+	bool recognitionSuccess = false;
 	Mat frame = capturer->GetFrame();
 
 	if (frame.empty()) {
@@ -132,32 +139,32 @@ int Engine::RecognizeFace()
 	int label = 0;
 	double confidence = 0.0;
 
-	if (faceMats.size() > 0) {
+	if (!faceMats.empty()) {
 		for (int i = 0; i < faceMats.size(); i++) 
 		{
 			recognizer->RecognizeFace(faceMats[i], label, confidence);
-			authorizationSuccess = securityProvider->TryAuthorize(label, confidence);
+			recognitionSuccess = securityProvider->TryRecognize(label, confidence);
 		}
 
-		if (feedWindow) {
+		if (settings.FeedWindow()) {
 			std::vector<Rect> empty;
 			ShowUI(frame, empty);
 		}
 	}
 
-	if (authorizationSuccess) {
-		securityProvider->HandleAuthorizationSuccess();
+	if (recognitionSuccess) {
+		securityProvider->HandleRecognitionSuccess();
 	}
 	else {
-		securityProvider->HandleAuthorizaitonFailure();
+		securityProvider->HandleRecognitionFailure();
 	}
 
 	return ECODE_SUCCESS;
 }
 
-void Engine::SecurityStateChanged(Security::SecurityAction action)
+void Engine::OnSecurityStateChange(Security::SecurityAction requiredAction)
 {
-	switch (action)
+	switch (requiredAction)
 	{
 		case Security::SecurityAction::RECOGNIZE: SetNextAction(&Engine::RecognizeFace); break;
 		case Security::SecurityAction::DETECT: SetNextAction(&Engine::DetectFace); break;
