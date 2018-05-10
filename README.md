@@ -119,10 +119,11 @@ Set settings by typing `sm set <parameter name> <value>`
 4. `recognition_interval` - amount of _seconds_ between each recognition.
 5. `confidence_threshold` - a recognition confidence value after which a face is considered unrecognized. Lower values mean higher recognition confidence.
 6. `capturedevide_index` - an index of a capture device. Usually `0`.
-7. `feedwindow` - boolean switch that specifies if camera feed must be show during program's operation.
-8. `preventlockdown` - boolean switch that allows to prevent actual lockdown. Useful for thershold calibration.
-9. `cascadetemplate_path` - a path to the template consumed by face detector.
-10. `authorizedfaces_path` - a path tho the folder with images of authorized users.
+7. `logverbosity` - log verbosity level. Acceptable values (following levels include preceeding ones): 0 - Silent, 1 - Warnings, 2 - Errors, 3 - Logs, 4 - Debug. 
+8. `feedwindow` - boolean switch that specifies if camera feed must be show during program's operation.
+9. `preventlockdown` - boolean switch that allows to prevent actual lockdown. Useful for thershold calibration.
+10. `cascadetemplate_path` - a path to the template consumed by face detector.
+11. `authorizedfaces_path` - a path tho the folder with images of authorized users.
 
 ## Some topics I've found useful
 1. https://msdn.microsoft.com/en-us/library/ff381399(v=vs.85).aspx
