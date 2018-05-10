@@ -1,5 +1,5 @@
 # Autolocker
-Web-camera and your face-based authorization.
+Camera and your face-based authorization.
 
 ## Foreword
 This is my frist C++ project in probably 10 years, so there's a high chance that it's anywhere from somewhat to catastrophically poorly written.
@@ -83,14 +83,14 @@ CMAKE_OPTIONS='-DBUILD_PERF_TESTS:BOOL=OFF -DBUILD_TESTS:BOOL=OFF -DBUILD_DOCS:B
 9. (Not sure if required) Once Cmake finishes building the project, navigate into `C:\lib\Build`, open the .sln file and build the entire solution.
 
 ## How to install OpenCV
-This section assumes that built the OpenCV with *contrib* stuff following the section above. 
+This section assumes that built the OpenCV with *contrib* stuff by following the section above. 
 
-Long story short, [Set the OpenCV enironment variable and add it to the system's path](https://docs.opencv.org/master/d3/d52/tutorial_windows_install.html#tutorial_windows_install_path).
+Long story short, [set the OpenCV enironment variable and add it to the system's path](https://docs.opencv.org/master/d3/d52/tutorial_windows_install.html#tutorial_windows_install_path).
 
 Long story long,
 
 1. Open *Environment variables* window (see System Properties)
-2. Under *System variables* group, create an `OPENCV_DIR` variable and set it to the location of your OpenCV's *bin* and *lib* folders, something like that: `C:\Program Files (x86)\OpenCV\opencv\build\x64\vc15`
+2. Under *System variables* group, create an `OPENCV_DIR` variable and set it to the location of your OpenCV's *bin* and *lib* folders, something like that: `C:\Program Files (x86)\OpenCV\opencv\build\x64\vc15`.
 3. Under *System variables* group, find an existing `PATH` variable and click 'Edit'. In appeared dialog, add a new path with exactly the following value: `%OPENCV_DIR%\bin`.
 4. Reboot your PC. After that you should be all set.
 
@@ -105,7 +105,7 @@ Long story long,
 2. Wait until the program captures and shows you an image from camera.
 3. If an image is vaild, type `Y` to save it or `N` to repeat (this prompt might be hidden behind image window).
 
-The process will be repeated five times. Feel free to run `learn` when you feel that existing photos aren't allowing the program to recognize the user (due to different lighting conditions or whatnot).
+The process will be repeated five times. Feel free to run `learn` when you feel that existing photos aren't allowing the program to recognize the user (due to different lighting conditions or whatnot). However, be mindful of amount of images the application has to load as it can easily chew through large amounts of RAM with relatively low image count (2GB of RAM for 90 images).
 
 ## Remove someone from authorized users
 Navigate to `./authorized_faces` folder and remove images manually.
@@ -116,7 +116,7 @@ Set settings by typing `sm set <parameter name> <value>`
 1. `engine_rpm` - a delay in milliseconds between engine iterations.
 2. `detectionfailure_threshold` - amount of consequental failed face _detections_ after which lockdown is engaged.
 3. `recognitionfailure_threshold` - amount of consequental failed face _recognitions_ after which lockdown is engaged.
-4. `recognition_interval` - amount of milliseconds between each recognition.
+4. `recognition_interval` - amount of _seconds_ between each recognition.
 5. `confidence_threshold` - a recognition confidence value after which a face is considered unrecognized. Lower values mean higher recognition confidence.
 6. `capturedevide_index` - an index of a capture device. Usually `0`.
 7. `feedwindow` - boolean switch that specifies if camera feed must be show during program's operation.

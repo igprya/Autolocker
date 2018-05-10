@@ -35,10 +35,6 @@ namespace Helpers
 		int imageCount = 5;
 		int capturedImages = 0;
 
-		Mat currentFrame;
-		Mat firstFace;
-		std::vector<Mat> faces;
-
 		std::cout << "AutoLocker will now consequentally capture five images from the camera and consider them authorized to use the computer" << std::endl;
 
 		while (capturedImages < imageCount)
@@ -51,7 +47,6 @@ namespace Helpers
 			}
 		}
 
-		cv::destroyWindow("Captured face");
 		std::cout << "Capturing completed" << std::endl;
 
 		return ECODE_SUCCESS;
@@ -65,7 +60,7 @@ namespace Helpers
 		std::vector<Mat> faces;
 
 		std::cout << "Capturing face..." << std::endl;
-
+				
 		currentFrame = capturer->GetFrame();
 		faces = detector->GetFaces(currentFrame);
 
@@ -74,8 +69,8 @@ namespace Helpers
 			return ECODE_FAILURE;
 		}
 
-		imshow("Captured face", currentFrame);
-		waitKey(10);
+		cv::imshow("Captured face", currentFrame);
+		waitKey(50);
 
 		std::string response;
 		std::cout << "Is this face valid? [Y/N] ";
@@ -88,6 +83,8 @@ namespace Helpers
 			std::cout << "Skipping this image." << std::endl << std::endl;;
 			return ECODE_FAILURE;
 		}
+
+		cv::destroyWindow("Captured face");
 
 		return ECODE_SUCCESS;
 	}
