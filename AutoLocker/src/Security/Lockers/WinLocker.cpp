@@ -23,6 +23,7 @@ namespace Security
 		if (!isLocked) {
 			return ECODE_SUCCESS;
 		}
+
 		isLocked = false;
 
 		if (!(securityWindowHandle == 0)) {
@@ -70,16 +71,15 @@ namespace Security
 			0,                              // Optional window styles.
 			CLASS_NAME,                     // Window class
 			L"Secure window",				// Window text
-			WS_POPUP,						// Window style											
+			WS_POPUP,						// Window style
 			vs_left, vs_top, vs_width, vs_height, // Size and position
-			NULL,							// Parent window    
+			NULL,							// Parent window
 			NULL,							// Menu
 			GetModuleHandle(nullptr),		// Instance handle
 			NULL							// Additional application data
 		);
-		
-		if (hwnd == NULL)
-		{
+
+		if (hwnd == NULL) {
 			return 0;
 		}
 
@@ -91,8 +91,7 @@ namespace Security
 
 		// Run the message loop.
 		MSG msg = {};
-		while (GetMessage(&msg, NULL, 0, 0))
-		{
+		while (GetMessage(&msg, NULL, 0, 0)) {
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
@@ -117,12 +116,10 @@ namespace Security
 			case WM_PAINT:
 			{
 				PAINTSTRUCT ps;
+				HBRUSH brush = CreateSolidBrush(RGB(0, 0, 0));
+
 				HDC hdc = BeginPaint(hwnd, &ps);
-
-				// Any other color than white causes the window to hang the message processing		
-				HBRUSH brush = CreateSolidBrush(RGB(255, 255, 255));
 				FillRect(hdc, &ps.rcPaint, brush);
-
 				EndPaint(hwnd, &ps);
 			}
 			return 0;
