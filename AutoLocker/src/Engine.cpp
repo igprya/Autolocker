@@ -15,7 +15,6 @@ Engine::~Engine()
 	engineLogger->Log("Deinitializing engine...");
 
 	cv::destroyAllWindows();
-	delete securityProvider;
 	delete capturer;
 	delete detector;
 	delete recognizer;

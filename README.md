@@ -1,10 +1,6 @@
 # Autolocker
 Camera and your face-based authorization.
 
-## Foreword
-This is my frist C++ project in probably 10 years, so there's a high chance that it's anywhere from somewhat to catastrophically poorly written.
-Please don't use it as an example of excellent C++ code. ;)
-
 ## Dependencies
 1. OpenCV 3.4.1 built with *contrib* libraries
 2. Visual Studio 15 2017 with C++ development environment
