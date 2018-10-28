@@ -23,7 +23,7 @@
     <ProjectGuid>{81C90A57-C312-449A-9CD6-E52B38D1063B}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>AutoLocker</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -162,6 +162,20 @@
       <AdditionalLibraryDirectories>$(OPENCV_DIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>opencv_world341.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>SET PACKAGE=$(TargetDir)Package\
+rmdir /s /q "%PACKAGE%"
+md "%PACKAGE%"
+
+xcopy "$(TargetDir)AutoLocker.exe" "%PACKAGE%"
+xcopy "$(SolutionDir)AutoLocker\.settings" "%PACKAGE%"
+xcopy "$(SolutionDir)AutoLocker\authorized_faces\reference_face.jpg" "%PACKAGE%authorized_faces\"
+xcopy "$(SolutionDir)AutoLocker\patterns" "%PACKAGE%patterns\"
+xcopy "$(OPENCV_DIR)\bin\opencv_world341.dll" "%PACKAGE%"</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>Create Package folder</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />

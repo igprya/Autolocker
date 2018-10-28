@@ -1,14 +1,19 @@
 # Autolocker
-Camera and your face-based authorization.
+Facial recognition-based PC access control tool.
 
-## Dependencies
+This tool uses a camera to detect the face of a person using the PC and validate it against a pre-generated set of faces of authorized users. If the face of a person using the PC is not present in the set or if there's nobody in front of the camera, then PC is 'locked down' with full-screen window which dissapears once an authorized face is recognized.
+
+## Usability
+The tool isn't perfectly suitable for continuous daily use because Local Binary Patterns Historgrams algorithm turned out to be quite sensitive to the face alignment, lighting conditions and image quality, especially with small sets of reference images. As a result, in order to avoid annoying short lockdowns due to failed recognitions, user has to keep his head somewhat straight at all times and that seems to build a lot of uncomfortable tension in the user's neck.
+
+## Requirements
 1. OpenCV 3.4.1 built with *contrib* libraries
 2. Visual Studio 15 2017 with C++ development environment
 
 ## How to build OpenCV
-Before you're start: it's still not too late to turn back. Don't be surprised when you find yourself cursing at your PC early tommorrow's morning. You've been warned.
+Before you start: it's still not too late to turn back. Don't be surprised when you find yourself cursing at your PC tommorrow's early morning. You've been warned.
 
-Now, with legal shenaningans out of the way, let's start with [OpenCV's own tutorial](https://docs.opencv.org/master/d3/d52/tutorial_windows_install.html). Take a look at the *Installation using Git-bash and cmake* section. PROTIP: you might want to provision and dedicate VM and slap VS 2017 Community into it before proceeding with building, things are going to get messy. 
+Now, with legal shenaningans and common courtesies out of the way, let's start with [OpenCV's own tutorial](https://docs.opencv.org/master/d3/d52/tutorial_windows_install.html). Take a look at the *Installation using Git-bash and cmake* section. PROTIP: you might want to provision and dedicate VM and slap VS 2017 Community into it before proceeding with building, things are going to get messy. 
 
 Here's the copy of OpenCV's tutorial in case if it's no longer there.
 1. Download and install *cmake* (3.9.1 or higher). Make sure to add cmake to PATH during the installation.
@@ -79,7 +84,7 @@ CMAKE_OPTIONS='-DBUILD_PERF_TESTS:BOOL=OFF -DBUILD_TESTS:BOOL=OFF -DBUILD_DOCS:B
 9. (Not sure if required) Once Cmake finishes building the project, navigate into `C:\lib\Build`, open the .sln file and build the entire solution.
 
 ## How to install OpenCV
-This section assumes that built the OpenCV with *contrib* stuff by following the section above. 
+This section assumes that you've built the OpenCV with *contrib* stuff by following the section above. 
 
 Long story short, [set the OpenCV enironment variable and add it to the system's path](https://docs.opencv.org/master/d3/d52/tutorial_windows_install.html#tutorial_windows_install_path).
 
@@ -90,20 +95,32 @@ Long story long,
 3. Under *System variables* group, find an existing `PATH` variable and click 'Edit'. In appeared dialog, add a new path with exactly the following value: `%OPENCV_DIR%\bin`.
 4. Reboot your PC. After that you should be all set.
 
+## How to build the tool
+Simply build the solution as you normally would using Visual Studio.
+
+## Targeting the newer version of OpenCV
+Update the following project properties:
+1. Additional Dependencies (under Linker > Input)
+2. Additional Library Directories (under Linker > General)
+3. Additional Include Directories (under C/C++ > General)
+4. Path to `opencv_world<version>.dll` (under Build Events > Post-Build Event > Command Line)
+
 ## Required stuff to launch an executable
 1. AutoLocker.exe (duh)
 2. opencv_world341.dll
 3. 'patterns' folder with 'haarcascade_frontalface_alt.xml' file
 4. 'authorized_face' folder with 'reference_face.jpg' file
 
-## Add someone to the authorized users
+All these files will be automatically copied into `Package` directory within the build destination during post-build step.
+
+## Add an authorized user
 1. Run the Autolocker.exe and type `learn`.
 2. Wait until the program captures and shows you an image from camera.
 3. If an image is vaild, type `Y` to save it or `N` to repeat (this prompt might be hidden behind image window).
 
 The process will be repeated five times. Feel free to run `learn` when you feel that existing photos aren't allowing the program to recognize the user (due to different lighting conditions or whatnot). However, be mindful of amount of images the application has to load as it can easily chew through large amounts of RAM with relatively low image count (2GB of RAM for 90 images).
 
-## Remove someone from authorized users
+## Remove an authorized user
 Navigate to `./authorized_faces` folder and remove images manually.
 
 ## Settings description
@@ -121,7 +138,7 @@ Set settings by typing `sm set <parameter name> <value>`
 10. `cascadetemplate_path` - a path to the template consumed by face detector.
 11. `authorizedfaces_path` - a path tho the folder with images of authorized users.
 
-## Some topics I've found useful
+## Some articles I've found useful
 1. https://msdn.microsoft.com/en-us/library/ff381399(v=vs.85).aspx
-3. https://habrahabr.ru/post/182610/
+3. https://habrahabr.ru/post/182610/ (in Russian)
 4. http://scrutator.me/post/2012/04/04/parallel-world-p1.aspx
